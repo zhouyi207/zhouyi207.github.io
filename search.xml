@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Windows图形界面基础</title>
-    <url>/2025/03/14/Windows%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/%E4%B8%80%E3%80%81Windows%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E5%9F%BA%E7%A1%80/</url>
+    <title>第一章、Windows图形界面基础</title>
+    <url>/2025/03/14/Windows%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/%E7%AC%AC%E4%B8%80%E7%AB%A0/</url>
     <content><![CDATA[<h1>Windows 图形界面基础</h1>
 <h2 id="1-控制台-和-Win32-的区别">1. 控制台 和 Win32 的区别</h2>
 <p>控制台应用程序和SDK的Win32应用程序的区别主要是库调用的入口函数不一样</p>
