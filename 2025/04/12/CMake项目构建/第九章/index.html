@@ -1,0 +1,778 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>第九章：模块 | 螃蟹</title><meta name="author" content="螃蟹"><meta name="copyright" content="螃蟹"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="CMake 预置的模块有的能够用于更好地调试 CMake 程序，有的能够用于更好地管理项目的依赖关系，有的能够用于更好地管理项目的构建过程，有的能够用于更好地管理项目的构建选项等等。 1. 引用功能模块 1include(xxx) 2. 常用的预置功能模块 1. 用于调试的模块 调试功能模块可以通过输出一些信息或检查一些配置来帮助调试 CMake 程序。 输出系统信息：CMakePrintSyst">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第九章：模块">
+<meta property="og:url" content="https://zhouyi207.github.io/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B9%9D%E7%AB%A0/index.html">
+<meta property="og:site_name" content="螃蟹">
+<meta property="og:description" content="CMake 预置的模块有的能够用于更好地调试 CMake 程序，有的能够用于更好地管理项目的依赖关系，有的能够用于更好地管理项目的构建过程，有的能够用于更好地管理项目的构建选项等等。 1. 引用功能模块 1include(xxx) 2. 常用的预置功能模块 1. 用于调试的模块 调试功能模块可以通过输出一些信息或检查一些配置来帮助调试 CMake 程序。 输出系统信息：CMakePrintSyst">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhouyi207.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-04-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-13T16:00:00.000Z">
+<meta property="article:author" content="螃蟹">
+<meta property="article:tag" content="CMake">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhouyi207.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "第九章：模块",
+  "url": "https://zhouyi207.github.io/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B9%9D%E7%AB%A0/",
+  "image": "https://zhouyi207.github.io/img/avatar.jpg",
+  "datePublished": "2025-04-11T16:00:00.000Z",
+  "dateModified": "2025-04-13T16:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "螃蟹",
+      "url": "https://zhouyi207.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/ico.png"><link rel="canonical" href="https://zhouyi207.github.io/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B9%9D%E7%AB%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: 螃蟹","link":"链接: ","source":"来源: 螃蟹","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '第九章：模块',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/feeling/"><i class="fa-fw fa fa-heartbeat"></i><span> 有感</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">螃蟹</span></a><a class="nav-page-title" href="/"><span class="site-name">第九章：模块</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/feeling/"><i class="fa-fw fa fa-heartbeat"></i><span> 有感</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">第九章：模块</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-11T16:00:00.000Z" title="发表于 2025-04-12 00:00:00">2025-04-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-13T16:00:00.000Z" title="更新于 2025-04-14 00:00:00">2025-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CMake-%E6%9E%84%E5%BB%BA%E5%AE%9E%E6%88%98-%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E5%8D%B7/">CMake 构建实战 项目开发卷</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">11.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>39分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>CMake 预置的模块有的能够用于更好地调试 CMake 程序，有的能够用于更好地管理项目的依赖关系，有的能够用于更好地管理项目的构建过程，有的能够用于更好地管理项目的构建选项等等。</p>
+<h2 id="1-引用功能模块">1. 引用功能模块</h2>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(xxx)</span><br></pre></td></tr></table></figure>
+<h2 id="2-常用的预置功能模块">2. 常用的预置功能模块</h2>
+<h3 id="1-用于调试的模块">1. 用于调试的模块</h3>
+<p>调试功能模块可以通过输出一些信息或检查一些配置来帮助调试 CMake 程序。</p>
+<p><strong>输出系统信息：CMakePrintSystemInformation</strong></p>
+<p>引用这个模块后，CMake 程序会直接输出一系列内部变量的值以供调试参考。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CMakePrintSystemInformation)</span><br></pre></td></tr></table></figure>
+<p><strong>输出辅助函数：CMakePrintHelpers</strong></p>
+<p>该模块提供了如下两个命令，分别用于辅助输出属性和变量的值</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cmake_print_properties(</span><br><span class="line">    [TARGETS &lt;构建目标&gt;...]</span><br><span class="line">    [SOURCES &lt;源文件&gt;...]</span><br><span class="line">    [DIRECTORIES &lt;目录&gt;...]</span><br><span class="line">    [TESTS &lt;测试目标&gt;...]</span><br><span class="line">    [CACHE_ENTRIES &lt;缓存变量&gt;...]</span><br><span class="line">    PROPERTIES &lt;属性&gt;...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令可用于输出作用于若干 &lt;构建目标&gt;，&lt;源文件&gt;，&lt;目录&gt;，&lt;测试目标&gt; 和 &lt;缓存变量&gt; 的指定 &lt;属性&gt; 的值，但每次调用该函数时仅可指定同一类型的作用域。例如，不能同时指定 <code>TARGETS &lt;构建目标&gt;</code> 和 <code>SOUCRES &lt;源文件&gt;</code>。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake_print_variables(</span><br><span class="line">    &lt;变量&gt;...</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令可以输出指定 &lt;变量&gt; 的名称和值，相比使用 <code>message</code> 命令将多个变量的名称和值同时输出要简便很多。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CMakePrintHelpers)</span><br><span class="line"></span><br><span class="line">cmake_print_properties(</span><br><span class="line">    DIRECTORIES .</span><br><span class="line">    PROPERTIES</span><br><span class="line">        BINARY_DIR</span><br><span class="line">        SOURCE_DIR</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Properties for DIRECTORY .:</span><br><span class="line">    ..BINARY_DIR = &quot;C:/Users/XXX/Desktop/C++/demo/demo/demo16/build_release&quot;</span><br><span class="line">    ..SOURCE_DIR = &quot;C:/Users/XXX/Desktop/C++/demo/demo/demo16&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="2-用于检查环境的模块">2. 用于检查环境的模块</h3>
+<p><strong>检查是否可编译：CheckSourceCompiles</strong></p>
+<p>该模块中提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">check_source_compiles(</span><br><span class="line">    &lt;编程语言&gt; &lt;源程序&gt; &lt;结果缓存变量&gt;</span><br><span class="line">    [FAIL_REGEX &lt;正则表达式&gt;...]</span><br><span class="line">    [SRC_EXT &lt;扩展名&gt;]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查 &lt;源程序&gt; 是否可以被指定 &lt;编程语言&gt; 的编译器编译称可执行文件，并将检查结果在配置阶段输出，同时向 &lt;结果缓存变量&gt; 中存入一个真值常量或假值常量。</p>
+<p>&lt;源程序&gt; 参数的值应为源程序代码，而非文件路径。若想检查某个源文件能否编译，可以先使用 <code>file(READ)</code> 命令将源文件的内容读取到变量，再将变量值传入该命令。另外，&lt;源程序&gt; 会被尝试编译为可执行文件，因此必须包含主函数入口。</p>
+<p>该命令会将 &lt;源程序&gt; 写入临时文件，作为源程序输入到编译器。<code>SRC_EXT</code> 参数用于指定这个临时源文件的 &lt;扩展名&gt;。省略该参数时，该命令会采用 &lt;编程语言&gt; 对应的默认扩展名。</p>
+<p>&lt;结果缓存变量&gt; 是一个 INTERNAL 类型的缓存变量，因此检查结果会被持久化缓存。也就是说，该检查不会在 CMake 配置阶段重复执行。这就要求每一个检查命令对应的结果变量名称应该唯一。</p>
+<p><code>FAIL_REGEX</code> 参数用于自定义检查失败的标准。当编译器输出的日志能够匹配到任一 &lt;正则表达式&gt; 时，认为检查失败。</p>
+<p>另外，有一些 CMake 变量可以影响编译检查过程中编译器所采用的参数。</p>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMAKE_&lt;编程语言&gt;_FLAGS</td>
+<td>用于指定向对应 &lt;编程语言&gt; 的编译器传递的额外编译选项参数列表</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_FLAGS</td>
+<td>用于指定向所有编译器传递的额外编译选项参数列表。它传递的参数在 CMAKE_&lt;编程语言&gt;_FLAGS 之后</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_DEFINITIONS</td>
+<td>用于指定宏定义列表，如 -DA;-DB=1</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_INCLUDES</td>
+<td>用于指定头文件搜索目录列表。该命令不会考虑 INCLUDE_DIRECTORIES 目录属性中的头文件搜索目录。也就是说，<code>include_directories</code> 命令设置的目录对该命令无效</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_LINK_OPTIONS</td>
+<td>用于指定链接选项列表</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_LIBRARIES</td>
+<td>用于指令链接库列表，其元素可以是系统库的名称或导入库目标的名称</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_QUIET</td>
+<td>用于设置是否关闭检查结果的输出。若将其设置为真值常量，则该命令将不会在配置阶段的日志中输出检查结果</td>
+</tr>
+</tbody>
+</table>
+<p>该命令是通过 <code>try_compile</code> 命令实现的，由于 <code>try_compile</code> 命令过于复杂，CMake 通过该模块提供了这个简化的命令。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CMakeLists.txt</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CheckSourceCompiles)</span><br><span class="line"></span><br><span class="line">check_source_compiles(C <span class="string">&quot;int main() &#123; return 0; &#125;&quot;</span> res)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;$&#123;res&#125;&quot;</span>) <span class="comment"># 输出：1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(CMAKE_REQUIRED_QUIET <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line">check_source_compiles(C <span class="string">&quot;invalid code&quot;</span> res2)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;$&#123;res2&#125;&quot;</span>) <span class="comment"># 输出：空字符串</span></span><br></pre></td></tr></table></figure>
+<p><strong>检查是否可运行：CheckSourceRuns</strong></p>
+<p>该模块中提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_source_runs(&lt;编程语言&gt; &lt;源程序&gt; &lt;结果缓存变量&gt; [SRC_EXT &lt;扩展名&gt;])</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查 &lt;源程序&gt; 是否可以被指定 &lt;编程语言&gt; 的编译器编译称可执行文件并成功运行。检查结果会在配置阶段输出，同时也会存入 &lt;结果缓存变量&gt;。</p>
+<p>该命令的参数和用法均与 <code>check_source_compiles</code> 相同。</p>
+<p><strong>检查编译选项：CheckCompilerFlag</strong></p>
+<p>该模块中提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_compiler_flag(&lt;编译语言&gt; &lt;选项&gt; &lt;结果存储变量&gt;)</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查当前 &lt;编程语言&gt; 的编译器是否支持 &lt;选项&gt; 指定的命令行参数，并将检查结果在配置阶段的日志中输出，同时向 &lt;结果缓存变量&gt; 中存入一个真值常量或假值常量。该命令实际上就是通过 <code>check_source_compiles</code> 命令实现的。</p>
+<p><strong>检查 C 语言符号存在性：CheckSymbolExists</strong></p>
+<p>该模块中提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_symbol_exists(&lt;符号&gt; &lt;头文件列表&gt; &lt;结果缓存变量&gt;)</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查程序在引用了 &lt;头文件列表&gt; 中任意的头文件后是否还会存在指定的 &lt;符号&gt;。检查结果会在配置阶段的日志输出，并存入 &lt;结构缓存变量&gt;。</p>
+<p>该命令可以检查的符号类型包括宏，可以链接的变量和函数等，前面介绍的运行编译选项的变量同意适用于该命令。类型，枚举值，内建函数等无法被作为符号检查，建议使用 <code>CheckSourceCompiles</code> 命令检查。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CheckSymbolExists)</span><br><span class="line"></span><br><span class="line">check_symbol_exists(printf <span class="string">&quot;stdio.h&quot;</span> res)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;Result: $&#123;res&#125;&quot;</span>) <span class="comment"># 输出：1</span></span><br></pre></td></tr></table></figure>
+<p>该命令仅适用于 C 语言，若想检查 C++ 语言的符号存在性，如带命令空间的符号 <code>std::cout</code> 等，可以使用 <code>CheckCXXSymbolExists</code> 模块提供的 <code>check_cxx_symbol_exists</code> 命令。两个模块的命令参数和用法是一致的。</p>
+<p><strong>检查结构体成员：CheckStructHasMember</strong></p>
+<p>该模块提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_struct_has_member(&lt;结构体&gt; &lt;成员变量&gt; &lt;头文件列表&gt; &lt;结果缓存变量&gt; [LANGUAGE &lt;编程语言&gt;])</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查 &lt;结构体&gt;（可以是 struct 或 class）是否存在指定的 &lt;成员变量&gt;。另外，为了使用这些 &lt;结构体&gt;，程序需要引用 &lt;头文件列表&gt; 中的头文件。检查结果会在配置阶段的日志中输出，并存入 &lt;结果缓存变量&gt; 中。影响编译选项的变量也同样使用。</p>
+<p>&lt;编程语言&gt; 参数仅支持 C 和 CXX 两个取值。默认情况下，其值为 C。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CheckStructHasMember)</span><br><span class="line"></span><br><span class="line">check_struct_has_member(<span class="string">&quot;std::pair&lt;int, int&gt;&quot;</span> <span class="string">&quot;first&quot;</span>  <span class="string">&quot;utility&quot;</span> res)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;Result: $&#123;res&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这里检查了 <code>std::pair&lt;int, int&gt;</code> 结构体是否存在成员变量 <code>first</code>。</p>
+<p><strong>检查函数原型：CheckPrototypeDefinition</strong></p>
+<p>该模块提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_prototype_definition(&lt;函数名&gt; &lt;函数原型&gt; &lt;返回值&gt; &lt;头文件列表&gt; &lt;结果缓存变量&gt; [LANGUAGE &lt;编程语言&gt;])</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查程序在引用 &lt;头文件列表&gt; 中的头文件后，是否存在一个名为 &lt;函数名&gt; 的函数，其原型与 &lt;函数原型&gt; 相匹配。函数原型即用于声明函数的函数签名。检查结果会在配置阶段的日志中输出，并存入 &lt;结果缓存变量&gt; 中。</p>
+<p>&lt;返回值&gt; 可以是任意一个满足 &lt;函数原型&gt; 中返回值类型的值，该值用于生成检查所用的代码。</p>
+<p>&lt;编程语言&gt; 参数仅支持 C 和 CXX 两个取值。默认情况下，其值为 C。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CheckPrototypeDefinition)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">check_prototype_definition(sinf <span class="string">&quot;float sinf(float a)&quot;</span> <span class="string">&quot;0&quot;</span> <span class="string">&quot;math.h&quot;</span> res)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;Result: $&#123;res&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line">check_prototype_definition(sinf <span class="string">&quot;double sinf(float a)&quot;</span> <span class="string">&quot;0&quot;</span> <span class="string">&quot;math.h&quot;</span> res2)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;Result: $&#123;res2&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>这里检查 <code>math.h</code> 头文件中定义的 <code>sinf</code> 函数的原型是否匹配 <code>float sinf(float a)</code> 和 <code>double sinf(float a)</code>。</p>
+<p><strong>检查选项状态栈：CMakePushCheckState</strong></p>
+<table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMAKE_REQUIRED_FLAGS</td>
+<td>用于指定向所有编译器传递的额外编译选项参数列表。它传递的参数在 CMAKE_&lt;编程语言&gt;_FLAGS 之后</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_DEFINITIONS</td>
+<td>用于指定宏定义列表，如 -DA;-DB=1</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_INCLUDES</td>
+<td>用于指定头文件搜索目录列表。该命令不会考虑 INCLUDE_DIRECTORIES 目录属性中的头文件搜索目录。也就是说，<code>include_directories</code> 命令设置的目录对该命令无效</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_LINK_OPTIONS</td>
+<td>用于指定链接选项列表</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_LIBRARIES</td>
+<td>用于指令链接库列表，其元素可以是系统库的名称或导入库目标的名称</td>
+</tr>
+<tr>
+<td>CMAKE_REQUIRED_QUIET</td>
+<td>用于设置是否关闭检查结果的输出。若将其设置为真值常量，则该命令将不会在配置阶段的日志中输出检查结果</td>
+</tr>
+</tbody>
+</table>
+<p>如果想通过上述变量为不同的检查命令设置不同的编译选项，那么就需要频繁清空，设置这些变量的值。<code>CMakePushCheckStata</code> 模块可以对上述变量维护一个状态栈，便于频繁更改其设置。该模块提供了如下三个命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake_path_check_state([RESET]) <span class="comment"># 压栈（保存）状态</span></span><br><span class="line">cmake_pop_check_state() <span class="comment"># 出栈（还原）状态</span></span><br><span class="line">cmake_reset_check_state() <span class="comment"># 清空栈</span></span><br></pre></td></tr></table></figure>
+<p>这三个命令分别用于保存，还原和清空上述几个变量的当前值。</p>
+<p><code>cmake_push_check_stata</code> 命令用于接收一个可选参数 <code>RESET</code>。指定它时，该命令会在保存状态之后，清空变量的值（相当于调用了 <code>cmake_reset_check_state</code> 命令）</p>
+<p><strong>检查是否支持链接时优化：CheckIPOSupported</strong></p>
+<p>该模块提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">check_ipo_supported([RESULT &lt;结果变量&gt;] [OUTPUT &lt;输出变量&gt;] [LANGUAGE &lt;编程语言&gt;...])</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查指定的若干 &lt;编程语言&gt; 对应的编译器是否支持过程间优化(IPO)，也称链接时优化(LTO)。检查结果会以真值或假值常量的形式存入 &lt;结果变量&gt; 中。若省略该参数，则检查失败会直接造成致命错误，终止 CMake 程序的运行。</p>
+<p><code>OUTPUT</code> 参数指定的 &lt;输出变量&gt; 用于存放检查过程中的详细错误。</p>
+<p>检查通过后，将构建目标的 <code>INTERPROCEDURAL_OPTIMIZATION</code> 属性设置为真值，即可启用链接时优化。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(CheckIPOSupported)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 强制 IPO：若检查失败，则报告致命错误并终止执行</span></span><br><span class="line">check_ipo_supported()</span><br><span class="line"><span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY INTERPROCEDURAL_OPTIMIZATION <span class="keyword">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可选 IPO：若检查失败，则报告警告且不启用 IPO</span></span><br><span class="line">check_ipo_supported(RESULT result OUTPUT output)</span><br><span class="line"><span class="keyword">if</span>(result)</span><br><span class="line">    <span class="keyword">set_property</span>(<span class="keyword">TARGET</span> main PROPERTY INTERPROCEDURAL_OPTIMIZATION <span class="keyword">TRUE</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(WARNING <span class="string">&quot;IPO is not supported: $&#123;output&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="3-用于生成导出头文件的模块：GenerateExportHeader">3. 用于生成导出头文件的模块：GenerateExportHeader</h3>
+<p>在开发供外部使用的静态库或动态库时，需要编写一个接口头文件，在其中声明库中所有的接口函数，类型等。尤其是在开发动态库时，往往还需要设置接口函数的导出属性等，同时通过设置编译选项来默认隐藏其他未导出的符号，从而隐藏实现细节。</p>
+<p>然而在实现过程中会遇到一些很现实的问题：各个编译器对导出结构所需的属性不同，隐藏符号的编译选项也不同；另外有时需要更灵活的配置接口，使其能够同时用于静态库和动态库；又或者需要通过一些宏来边际某些过时的接口为弃用状态。</p>
+<p>通常我们都会编写一个头文件，用宏来判断不同的编译器，再定义一些宏来对应不同的属性设置等，以此将不同编译器的差异隐藏起来。CMake 提供了 <code>GenerateExportHeader</code> 模块，该模块提供了如下命令：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">generate_export_header(</span><br><span class="line">    &lt;库目标&gt;</span><br><span class="line">    [EXPORT_FILE_NAME &lt;导出头文件名称&gt;]</span><br><span class="line">    [BASE_NAME &lt;基本名称&gt;]</span><br><span class="line">    [EXPORT_MACRO_NAME &lt;导出接口宏名称&gt;]</span><br><span class="line">    [NO_EXPORT_MACRO_NAME &lt;非导出接口宏名称&gt;]</span><br><span class="line">    [DEPRECATED_MACRO_NAME &lt;已弃用接口宏名称&gt;]</span><br><span class="line">    [NO_DEPRECATED_MACRO_NAME &lt;忽略弃用接口宏名称&gt;]</span><br><span class="line">    [DEFINE_NO_DEPRECATED]</span><br><span class="line">    [INCLUDE_GUARD_NAME &lt;头文件卫哨宏名称&gt;]</span><br><span class="line">    [STATIC_DEFINE &lt;静态库宏名称&gt;]</span><br><span class="line">    [PREFIX_NAME &lt;宏前缀名称&gt;]</span><br><span class="line">    [CUSTOM_CONTENT_FROM_VARIABLE &lt;追加内容变量&gt;]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;导出头文件名称&gt;</td>
+<td>用于设置生成的头文件的名称</td>
+<td>&lt;库目标&gt;_export.h（&lt;库目标&gt; 会转为小写）</td>
+</tr>
+<tr>
+<td>&lt;基本名称&gt;</td>
+<td>默认命名的重要组成部分（会被转为大写的合法 C 标识符）</td>
+<td>&lt;库目标&gt;</td>
+</tr>
+<tr>
+<td>&lt;导出接口宏名称&gt;</td>
+<td>用于标记导出接口的宏名称</td>
+<td>&lt;基本名称&gt;_EXPORT</td>
+</tr>
+<tr>
+<td>&lt;非导出接口宏名称&gt;</td>
+<td>用于标记非导出接口的宏名称</td>
+<td>&lt;基本名称&gt;_NO_EXPORT</td>
+</tr>
+<tr>
+<td>&lt;已弃用接口宏名称&gt;</td>
+<td>用于标记已弃用接口的宏名称</td>
+<td>&lt;基本名称&gt;_DEPRECATED</td>
+</tr>
+<tr>
+<td>&lt;忽略弃用接口宏名称&gt;</td>
+<td>用于忽略弃用接口的宏的名称（该宏是否定义取决于 <code>DEFINE_NO_DEPRECATED</code> 参数）</td>
+<td>&lt;基本名称&gt;_NOT_DEPRECATED</td>
+</tr>
+<tr>
+<td><code>DEFINE_NO_DEPRECATED</code></td>
+<td>用于定义忽略弃用接口宏</td>
+<td>——</td>
+</tr>
+<tr>
+<td>&lt;头文件卫哨宏名称&gt;</td>
+<td>用于定义头文件的卫哨宏的名称</td>
+<td>&lt;基本名称&gt;_H</td>
+</tr>
+<tr>
+<td>&lt;静态库宏名称&gt;</td>
+<td>用于判断是否为静态库的宏的名称（仅用于判断，并无定义）</td>
+<td>&lt;基本名称&gt;_STATIC_DEFINE</td>
+</tr>
+<tr>
+<td>&lt;宏前缀名称&gt;</td>
+<td>用于为上面涉及的宏名称添加前缀</td>
+<td>空</td>
+</tr>
+<tr>
+<td>&lt;追加内容变量&gt;</td>
+<td>将 &lt;追加内容变量&gt; 的内容追加到头文件最后</td>
+<td>空</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>&lt;库目标&gt;_EXPORTS（&lt;库目标&gt; 会转为合法 C 标识符），用于判断当前是在构建该库还是使用该库的接口，以定义不同的导出接口宏的值。该宏仅用于判断，因此同静态库宏一样，仅在生成的头文件中作判断使用，并无定义。用户应当在构建 &lt;库目标&gt; 时使用 PRIVATE 参数为目标定义宏，使其仅作用于该库。</li>
+<li>&lt;基本名称&gt;_DEPRECATED_EXPORT 该宏等价于同时使用已弃用接口宏和导出接口宏。</li>
+<li>&lt;基本名称&gt;_DEPRECATED_NO_EXPORT 该宏等价于同时使用已弃用接口宏和非导出接口宏。</li>
+</ul>
+<p><strong>实例：导出接口</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// print.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PRINT_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print_export.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">PRINT_EXPORT <span class="type">void</span> <span class="title function_">print</span><span class="params">()</span>;</span><br><span class="line">PRINT_NO_EXPORT <span class="type">void</span> _internal();</span><br><span class="line">PRINT_DEPRECATED_EXPORT <span class="type">void</span> <span class="title function_">old_print</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">// PRINT_H_</span></span></span><br></pre></td></tr></table></figure>
+<p>在头文件中添加 PRINT_EXPORT 宏，即可在构建时将该接口标记为导出接口。添加 PRINT_NO_EXPORT 宏，在使用时将该接口标记为非导出接口。添加 PRINT_DEPRECATED_EXPORT 宏，在构建时将该接口标记为已弃用导出接口。添加 PRINT_DEPRECATED_NO_EXPORT 在使用时将该接口标记为已弃用非导出接口。这里的 <code>print_export.h</code> 文件是后面生成的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// print.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">print</span><span class="params">()</span> &#123;<span class="built_in">printf</span>(<span class="string">&quot;Hello\n&quot;</span>);&#125;</span><br><span class="line"><span class="type">void</span> _internal() &#123;<span class="built_in">printf</span>(<span class="string">&quot;Hello, internal\n&quot;</span>);&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">old_print</span><span class="params">()</span> &#123;<span class="built_in">printf</span>(<span class="string">&quot;Hello, old\n&quot;</span>);&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// mian.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;print.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    print();</span><br><span class="line">    old_print();</span><br><span class="line">    <span class="comment">// 由于设置为 PRINT_NO_EXPORT，该接口不可用</span></span><br><span class="line">    <span class="comment">// _internal();</span></span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们需要配置 CMakeLists.txt 文件，下面是构建动态库并使用的实例</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(GenerateExportHeader)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(print SHARED print.c)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其主要功能就是根据 print 这个构建目标的类型和字符串生成宏定义</span></span><br><span class="line">generate_export_header(print</span><br><span class="line">    <span class="comment"># 如果定义 DEFINE_NO_DEPRECATED 参数，会在导出的头文件中添加 PRINT_NO_DEPRECATED 定义，类似于 PRINT_NO_EXPORT</span></span><br><span class="line">    DEFINE_NO_DEPRECATED</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成的头文件会放在 $&#123;CMAKE_CURRENT_BINARY_DIR&#125; 目录下，所以在这里链接生成的头文件</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(print PUBLIC <span class="variable">$&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里只在 动态库 的构建目标中使用</span></span><br><span class="line"><span class="comment"># 定义 print_EXPORTS 宏 表明我们在构建库；不定义时，表明我们在使用库</span></span><br><span class="line"><span class="keyword">target_compile_definitions</span>(print PRIVATE print_EXPORTS)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set_target_properties</span>(print PROPERTIES </span><br><span class="line">    CXX_VISIBILITY_PRESET hidden</span><br><span class="line">    VISIBILITY_INLINES_HIDDEN <span class="number">1</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.c)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PRIVATE print)</span><br></pre></td></tr></table></figure>
+<p>下面是构建动态库生成的 <code>print_export.h</code> 文件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_EXPORT_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PRINT_EXPORT_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> PRINT_STATIC_DEFINE</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_EXPORT</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_NO_EXPORT</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">ifndef</span> PRINT_EXPORT</span></span><br><span class="line"><span class="meta">#    <span class="keyword">ifdef</span> print_EXPORTS</span></span><br><span class="line">        <span class="comment">/* We are building this library */</span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> PRINT_EXPORT __declspec(dllexport)</span></span><br><span class="line"><span class="meta">#    <span class="keyword">else</span></span></span><br><span class="line">        <span class="comment">/* We are using this library */</span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> PRINT_EXPORT __declspec(dllimport)</span></span><br><span class="line"><span class="meta">#    <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#  <span class="keyword">ifndef</span> PRINT_NO_EXPORT</span></span><br><span class="line"><span class="meta">#    <span class="keyword">define</span> PRINT_NO_EXPORT </span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_DEPRECATED</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_DEPRECATED __declspec(deprecated)</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_DEPRECATED_EXPORT</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_DEPRECATED_EXPORT PRINT_EXPORT PRINT_DEPRECATED</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_DEPRECATED_NO_EXPORT</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_DEPRECATED_NO_EXPORT PRINT_NO_EXPORT PRINT_DEPRECATED</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* NOLINTNEXTLINE(readability-avoid-unconditional-preprocessor-if) */</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 1 <span class="comment">/* DEFINE_NO_DEPRECATED */</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">ifndef</span> PRINT_NO_DEPRECATED</span></span><br><span class="line"><span class="meta">#    <span class="keyword">define</span> PRINT_NO_DEPRECATED</span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* PRINT_EXPORT_H */</span></span></span><br></pre></td></tr></table></figure>
+<p>下面是构建静态库并使用的实例</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"><span class="keyword">include</span>(GenerateExportHeader)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_library</span>(print STATIC print.c)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 其主要功能就是根据 print 这个构建目标的类型和字符串生成宏定义</span></span><br><span class="line">generate_export_header(print</span><br><span class="line">    <span class="comment"># 如果定义 DEFINE_NO_DEPRECATED 参数，会在导出的头文件中添加 PRINT_NO_DEPRECATED 定义，类似于 PRINT_NO_EXPORT</span></span><br><span class="line">    DEFINE_NO_DEPRECATED</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成的头文件会放在 $&#123;CMAKE_CURRENT_BINARY_DIR&#125; 目录下，所以在这里链接生成的头文件</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(print PUBLIC <span class="variable">$&#123;CMAKE_CURRENT_BINARY_DIR&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里由于定义静态库，不需要定义 print_EXPORTS 宏</span></span><br><span class="line"><span class="comment"># 只需要定义 PRINT_STATIC_DEFINE 就可以了</span></span><br><span class="line"><span class="keyword">target_compile_definitions</span>(print PRIVATE PRINT_STATIC_DEFINE)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set_target_properties</span>(print PROPERTIES </span><br><span class="line">    CXX_VISIBILITY_PRESET hidden</span><br><span class="line">    VISIBILITY_INLINES_HIDDEN <span class="number">1</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.c)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PRIVATE print)</span><br></pre></td></tr></table></figure>
+<p>下面是构建静态库生成的 <code>print_export.h</code> 文件</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_EXPORT_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> PRINT_EXPORT_H</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifdef</span> PRINT_STATIC_DEFINE</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_EXPORT</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_NO_EXPORT</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">ifndef</span> PRINT_EXPORT</span></span><br><span class="line"><span class="meta">#    <span class="keyword">ifdef</span> print_EXPORTS</span></span><br><span class="line">        <span class="comment">/* We are building this library */</span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> PRINT_EXPORT </span></span><br><span class="line"><span class="meta">#    <span class="keyword">else</span></span></span><br><span class="line">        <span class="comment">/* We are using this library */</span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> PRINT_EXPORT </span></span><br><span class="line"><span class="meta">#    <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#  <span class="keyword">ifndef</span> PRINT_NO_EXPORT</span></span><br><span class="line"><span class="meta">#    <span class="keyword">define</span> PRINT_NO_EXPORT </span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_DEPRECATED</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_DEPRECATED __declspec(deprecated)</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_DEPRECATED_EXPORT</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_DEPRECATED_EXPORT PRINT_EXPORT PRINT_DEPRECATED</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> PRINT_DEPRECATED_NO_EXPORT</span></span><br><span class="line"><span class="meta">#  <span class="keyword">define</span> PRINT_DEPRECATED_NO_EXPORT PRINT_NO_EXPORT PRINT_DEPRECATED</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* NOLINTNEXTLINE(readability-avoid-unconditional-preprocessor-if) */</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 1 <span class="comment">/* DEFINE_NO_DEPRECATED */</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">ifndef</span> PRINT_NO_DEPRECATED</span></span><br><span class="line"><span class="meta">#    <span class="keyword">define</span> PRINT_NO_DEPRECATED</span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">/* PRINT_EXPORT_H */</span></span></span><br></pre></td></tr></table></figure>
+<p>可以看到两个头文件的差异是 <code>PRINT_EXPORT</code> 的定义不同。使用静态库时，添加宏和不添加宏效果是一样的。因为静态库接口中的符号都是外部可见的。</p>
+<h2 id="3-查找模块">3. 查找模块</h2>
+<p>查找模块是一系列用于搜索第三方依赖软件包（包括库或可执行文件）的模块。对查找模块的引用一般不适用 <code>include</code> 命令，而是使用 <code>find_package</code> 命令。</p>
+<h3 id="1-查找软件包命令：find-package（模块模式）">1. 查找软件包命令：find_package（模块模式）</h3>
+<p>CMake 中的 <code>find_package</code> 命令可以用于搜索第三方依赖软件包，获得其路径，版本等信息，以便在程序中链接或使用它。</p>
+<p><code>find_package</code> 命令有两种模式：模块模式和配置模式。其中，配置模式涉及导入依赖与分发软件包等相关内容。这里只介绍第一种模式——模块模式。在模块模式下，该命令的形式如下：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">find_package</span>(&lt;软件包名&gt; </span><br><span class="line">    [[&lt;版本号&gt;] [EXACT] [QUIET] [MODULE] [REQUIRED] [[COMPONENTS] &lt;子组件&gt;...]]</span><br><span class="line">    [OPTIONAL_COMPONENTS &lt;可选子组件&gt;...]</span><br><span class="line">    [NO_POLICY_SCOPE]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令会调用名为 <code>Find&lt;软件包名&gt;.cmake</code> 的查找模块来完成对软件包的搜索。它首先在 <code>CMAKE_MODULE_PATH</code> 变量定义的路径列表中搜索查找模块，若找不到，则从 CMake 安装目录中搜索符合该名称的 CMake 预置的查找模块。如果仍未找到对应的查找模块，该命令会切换到配置模式再进行处理。</p>
+<p>&lt;版本号&gt; 参数用于指定查找的软件包的版本应当满足的条件，它支持如下两种限制条件：</p>
+<ul>
+<li>直接指定版本号，其格式为 <code>主版本号[.次版本号[.补丁版本号[.修订版本号]]]</code>，该条件要求查找的软件包的版本号应当兼容指定的版本号，如比指定的版本号大。</li>
+<li>指定版本号区间，其格式为 <code>最小版本号...[&lt;]最大版本号</code>，该条件要求查找的软件包的版本号应该在指定的版本号区间内，区间默认为闭区间，指定 <code>&lt;</code> 后则是左开右闭区间。</li>
+</ul>
+<p><code>EXACT</code> 参数表示版本号必须与指定的 &lt;版本号&gt; 一致。指定该参数后，要求 &lt;版本号&gt; 参数采用第一种直接指定版本号的条件格式。</p>
+<p><code>QUIET</code> 参数用于弃用静默模式，即关闭部分查找信息的输出。</p>
+<p><code>MODULE</code> 参数用于指定命令仅采用模块方式，指定该参数后，即使不存在对应软件包的查找模块，该命令也不会切换到配置模式再进行处理。</p>
+<p><code>REQUIRED</code> 参数表示该软件包是构建过程中所必需的，查找失败将导致致命错误，并使程序终止。</p>
+<p>部分软件包可能由多个子组件构成，如 <code>Boost</code> 库可以作为一个软件包，其中包含了 <code>container</code>,<code>date_time</code>, <code>filesystem</code> 等组件。但在使用 <code>Boost</code> 库时往往只会使用其中提供的部分组件，此时可以使用 <code>COMPONENTS</code> 参数指定 &lt;子组件&gt;。指定的 &lt;子组件&gt; 中只要有一个没有被查找到，该命令就会认为该软件包没有被成功查找。</p>
+<p>当指定了 <code>REQUIRED</code> 参数时，可以省略 <code>COMPONENTS</code> 参数，直接在 <code>REQUIRED</code> 参数后列举所需的 &lt;子组件&gt;。另外， <code>REQUIRED</code> 参数也会使得命令在任一子组件未被成功查找时报告致命错误，终止程序执行。</p>
+<p><code>OPTIONAL_COMPONENTS</code> 参数用于指定 &lt;可选子组件&gt;。可选子组件是否能够被成功查找不影响软件包是否被成功查找的判断。即使指定了 <code>REQUIRED</code> 参数，可选子组件未被成功查找也不会影响致命错误。</p>
+<p>该命令执行后会定义一个变量 &lt;软件包名&gt;_FOUND，当软件包被成功查找时，它会被设置为真值，否则会被设置为假值。查找模块可能还会定义其他的与软件包信息相关的变量。</p>
+<p><code>NO_POLICY_SCOPE</code> 表示引用的模块程序不会拥有一个新的技术栈。</p>
+<h3 id="2-实例：使用-FindThreads-引用线程库">2. 实例：使用 FindThreads 引用线程库</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_package</span>(Threads)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main  main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main PRIVATE Threads::Threads)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;Threads_Found: $&#123;Threads_FOUND&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">worker</span><span class="params">(<span class="type">int</span> i)</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Hello from thread %d\n&quot;</span>, i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">std::thread <span class="title">th</span><span class="params">(worker, <span class="number">0</span>)</span></span>;</span><br><span class="line">    th.<span class="built_in">join</span>(); <span class="comment">// Wait for the thread to finish</span></span><br><span class="line">    <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里在 Windows 上好像不链接 <code>Threads</code> 库也行。但是书上说在 Linux 上开发多线程引用都是要手动链接 <code>Threads</code> 库的。不然会报错。</p>
+<h2 id="4-编写自定义查找模块">4. 编写自定义查找模块</h2>
+<p>在查找模块的实现中，往往需要查找软件包所需的可执行文件，库文件，头文件目录等路径。CMake 提供了一系列命令用于辅助完成这些工作。</p>
+<h3 id="1-查找文件">1. 查找文件</h3>
+<p>该命令由两种形式，一种简单形式，一种完整形式：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单形式</span></span><br><span class="line"><span class="keyword">find_file</span>(&lt;结果缓存变量&gt; &lt;文件名&gt; [&lt;候选路径&gt;...])</span><br><span class="line"><span class="comment"># 完整形式</span></span><br><span class="line"><span class="keyword">find_file</span>(&lt;结果缓存变量&gt; </span><br><span class="line">    &lt;文件名&gt; | NAMES &lt;候选文件名&gt;...</span><br><span class="line">    [HINTS|PATHS [&lt;候选路径&gt;|ENV &lt;候选路径环境变量&gt;]...]</span><br><span class="line">    [PATH_SUFFIXES &lt;子目录&gt;...]</span><br><span class="line">    [DOC &lt;结果缓存变量的描述&gt;]</span><br><span class="line">    [REQUIRED]</span><br><span class="line">    [&lt;搜索路径选项&gt;...]</span><br><span class="line">    [CMAKE_FIND_ROOT_PATH_BOTH | ONLY_CMAKE_FIND_ROOT_PATH | NO_CMAKE_FIND_ROOT_PATH]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令用于查找 &lt;文件名&gt; 对应文件的绝对路径，并将其存入 &lt;结果缓存变量&gt;。若该命令执行前 &lt;结果缓存变量&gt; 不为空值，则该命令不会执行，以免重复查找。</p>
+<p><code>NAMES</code> 参数可以指定若干 &lt;候选文件名&gt;，该命令会依次查找，并将第一个查找到的文件名的绝对路径作为查找结果。</p>
+<p><code>find_file</code> 命令在查找指定文件时，会从一系列默认搜索路径中查找，<code>HINTS</code> 或 <code>PATHS</code> 参数可用于补充搜索的 &lt;候选路径&gt;。该参数同时支持通过 <code>ENV</code> 指定 &lt;候选路径环境变量&gt;，候选路径会从指定的环境变量中读取。</p>
+<p><code>PATH_SUFFIXES</code> 参数用于指定若干用于追加到 &lt;候选路径&gt; 的 &lt;子目录&gt;。<code>find_file</code> 命令在候选路径中查找文件时，会同时在这些候选路径对应目录的子目录中查找文件（不追加子目录的候选路径本身也会被搜索）。</p>
+<p><code>DOC</code> 参数用于设置 &lt;结果缓存变量的描述&gt;，在介绍使用 <code>set</code> 命令定义缓存变量时，就提到过用于设置 &lt;变量描述&gt; 的参数，其值可以在 CMake GUI 中看到。</p>
+<p><code>REQUIRED</code> 参数用于指定该文件是必须的。当文件未能成功查找时，CMake 会报告错误并终止执行。</p>
+<p><strong>搜索顺序与搜索路径选项</strong></p>
+<p>&lt;搜索路径选项&gt; 由很多选项参数可以指定，分别用于禁用一些默认的搜索路径，下表按照 <code>find_file</code> 搜索各类路径的顺序，移除介绍各类路径及禁用对应搜索路径类别所需的选项参数。</p>
+<table>
+<thead>
+<tr>
+<th>路径类型</th>
+<th>路径样例</th>
+<th>禁用选项参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件包根目录</td>
+<td>&lt;软件包根目录&gt;/include/[/&lt;架构&gt;]</td>
+<td>NO_PACKAGE_ROOT_PATH</td>
+</tr>
+<tr>
+<td>CMake 变量路径</td>
+<td>${CMAKE_PREFIX_PATH}/include/[/&lt;架构&gt;], ${CMAKE_INCLUDE_PATH}, ${CMAKE_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_PATH</td>
+</tr>
+<tr>
+<td>CMake 环境变量路径</td>
+<td>$ENV{CMAKE_PREFIX_PATH}/include/[/&lt;架构&gt;], $ENV{CMAKE_INCLUDE_PATH}, $ENV{CMAKE_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_ENVIRONMENT_PATH</td>
+</tr>
+<tr>
+<td>HINTS候选路径</td>
+<td>&lt;候选路径&gt;</td>
+<td>——</td>
+</tr>
+<tr>
+<td>系统环境变量路径</td>
+<td>$ENV{INCLUDE}, $ENV{PATH}</td>
+<td>NO_SYSTEM_ENVIRONMENT_PATH</td>
+</tr>
+<tr>
+<td>平台相关路径</td>
+<td>${CMAKE_SYSTEM_PREFIX_PATH}, ${CMAKE_SYSTEM_INCLUDE_PATH}, ${CMAKE_SYSTEM_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_SYSTEM_PATH</td>
+</tr>
+<tr>
+<td>PATHS 候选路径</td>
+<td>&lt;候选路径&gt;</td>
+<td>——</td>
+</tr>
+</tbody>
+</table>
+<p>下面对上表进行一些补充说明</p>
+<ul>
+<li>软件包根目录 即查找模块查找的软件包的根目录，也就是 <code>&lt;软件包&gt;_ROOT</code> 变量或环境变量的值。因此，该路径仅对通过 <code>find_package</code> 命令调用的查找模块中的 <code>find_file</code> 命令有效。如果查找模块被嵌套调用，则每一层的软件包根目录都会被维护于栈结构中。这些目录对应的 <code>include[/&lt;架构&gt;]</code> 子目录都会被作为搜索路径，搜索顺序则为当前软件包根目录，父级软件包根目录，以此类推。</li>
+<li>平台相关路径涉及的 CMake 变量值由 CMake 根据平台预定义，尽管也可以被修改，但并不建议。通过修改 CMake 变量路径或 CMake 环境变量路径涉及的变量值来自定义搜索路径是推荐的做法。其中平台相关路径 <code>$&#123;CMAKE_SYSTEM_PREFIX_PATH&#125;</code> 的值，在 Windows 操作系统中包括 <code>C:\Program Files</code>, <code>C:\Program Files(x86)</code> 等目录；在类 UNIX 中包括 <code>/usr/local</code> 等目录</li>
+<li>在 Windows 操作系统中，系统环境变量路径 <code>$ENV&#123;PATH&#125;</code> 中的值一般会被追加到 <code>include</code> 子目录后作为搜索路径。若环境变量存在以 <code>bin</code> 或 <code>sbin</code> 结尾的值，则取其上层目录并追加 <code>include[/&lt;架构&gt;]</code> 作为搜索路径。</li>
+<li><code>PATHS</code> 参数指定的 &lt;候选路径&gt; 优先级最低，往往用于一些写死的目录，<code>find_file</code> 简单形式中的 &lt;候选路径&gt; 参数等价于这里的路径。</li>
+<li>若 <code>CMAKE_LIBRARY_ARCHITECTURE</code> 变量被定义，那么路径中涉及 <code>[/&lt;架构&gt;]</code> 的可选部分将会存在，且 <code>&lt;架构&gt;</code> 的值即该变量的值。</li>
+<li>除了上表的禁用选项参数，还有一个 NO_DEFAULT_PATH。指定它将禁用全部默认搜索路径，仅根据参数提供的 &lt;候选路径&gt; 和 &lt;子目录&gt; 来搜索。</li>
+<li><code>find_file</code> 一般用于在头文件目录中搜索头文件，这也是为什么大多数搜索路径都会包含 <code>include</code> 子目录的原因。</li>
+</ul>
+<p><strong>重定向根目录</strong></p>
+<p><code>CMAKE</code> 变量 <code>CMAKE_FIND_ROOT_PATH</code> 可以用于重定向起那么提到的所有搜索路径所对应的根目录，且可以设置为若干目录。</p>
+<p>例如，假设 <code>CMAKE_PREFIX_PATH</code> 变量的值为 <code>/a</code>，那么默认情况下 <code>find_file</code> 命令会搜索 <code>/a/include</code>；但如果设置 <code>CMAKE_FIND_ROOT_PATH</code> 变量的值为 <code>/b;/c</code>，那么 <code>find_file</code> 命令会搜索 <code>/b/a/include</code> 和 <code>/c/a/include</code>。如果搜索不到，才会再次尝试搜索未被重定向的路径。</p>
+<ul>
+<li>CMAKE_FIND_ROOT_PATH_BOTH 即按照默认重定向根目录的搜索顺序搜索；</li>
+<li>NO_CMAKE_FIND_ROOT_PATH 即禁用重定向根目录，忽略 CMAKE_FIND_ROOT_PATH 变量；</li>
+<li>ONLY_CMAKE_FIND_ROOT_PATH 只搜索重定向根目录，不搜索未被重定向的路径</li>
+</ul>
+<p>重定向根目录这个特性往往用于交叉编译，因为交叉编译工具链中库的目录结构与系统库的目录结构一般是相同的，将根目录重定向到编译工具链的安装根目录，即可查找位于编译工具链子目录中的文件。</p>
+<p><strong>实例</strong></p>
+<p>文件结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">├─a</span><br><span class="line">│  └─b</span><br><span class="line">|    └─1.txt</span><br><span class="line">├─b</span><br><span class="line">│  └─a</span><br><span class="line">│    └─2.txt</span><br></pre></td></tr></table></figure>
+<p><code>CMakeLists.txt</code> 文件内容如下：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">4.0</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(WIN32)</span><br><span class="line">    <span class="keyword">find_file</span>(notepad_path notepad.exe)</span><br><span class="line">    <span class="keyword">message</span>(<span class="string">&quot;$&#123;notepad_path&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_file</span>(res1 <span class="number">1</span>.txt HINTS a b PATH_SUFFIXES b)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;$&#123;res1&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">find_file</span>(res2 <span class="number">2</span>.txt HINTS a b PATH_SUFFIXES a)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;$&#123;res2&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="2-查找库文件">2. 查找库文件</h3>
+<p>与 <code>find_file</code> 类似，<code>find_library</code> 命令也有两种形式，参数几乎完全一样：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单形式</span></span><br><span class="line"><span class="keyword">find_library</span>(&lt;结果缓存变量&gt; &lt;库名称&gt; [&lt;候选路径&gt;...])</span><br><span class="line"><span class="comment"># 完整形式</span></span><br><span class="line"><span class="keyword">find_library</span>(&lt;结果缓存变量&gt; </span><br><span class="line">    &lt;库名称&gt; | NAMES &lt;候选库名称&gt;... [NAMES_PER_DIR]</span><br><span class="line">    [HINTS|PATHS [&lt;候选路径&gt;|ENV &lt;候选路径环境变量&gt;]...]</span><br><span class="line">    [PATH_SUFFIXES &lt;子目录&gt;...]</span><br><span class="line">    [DOC &lt;结果缓存变量的描述&gt;]</span><br><span class="line">    [REQUIRED]</span><br><span class="line">    [&lt;搜索路径选项&gt;...]</span><br><span class="line">    [CMAKE_FIND_ROOT_PATH_BOTH | ONLY_CMAKE_FIND_ROOT_PATH | NO_CMAKE_FIND_ROOT_PATH]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令用于查找 &lt;库名称&gt; 对应的库文件的绝对路径，并将其存入 &lt;结果缓存变量&gt; 中。</p>
+<p>库名称参数可以仅指定库的原始名称，无须包含前缀后缀，如 <code>a</code>。该命令在查找库文件时会根据当前平台的惯例补齐文件名，例如，在 Linux 中可能会搜索 <code>liba.a</code>，而在 Windows 中可能会搜索 <code>a.lib</code>。</p>
+<p>由于 <code>find_library</code> 命令一般用于查找库文件，因此默认搜索的路径与 <code>find_file</code> 会有所不同，但是路径的类别和顺序是相似的。</p>
+<table>
+<thead>
+<tr>
+<th>路径类型</th>
+<th>路径样例</th>
+<th>禁用选项参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件包根目录</td>
+<td>&lt;软件包根目录&gt;/lib/[/&lt;架构&gt;]</td>
+<td>NO_PACKAGE_ROOT_PATH</td>
+</tr>
+<tr>
+<td>CMake 变量路径</td>
+<td>${CMAKE_PREFIX_PATH}/lib/[/&lt;架构&gt;], ${CMAKE_LIBRARY_PATH}, ${CMAKE_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_PATH</td>
+</tr>
+<tr>
+<td>CMake 环境变量路径</td>
+<td>$ENV{CMAKE_PREFIX_PATH}/lib/[/&lt;架构&gt;], $ENV{CMAKE_LIBRARY_PATH}, $ENV{CMAKE_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_ENVIRONMENT_PATH</td>
+</tr>
+<tr>
+<td>HINTS候选路径</td>
+<td>&lt;候选路径&gt;</td>
+<td>——</td>
+</tr>
+<tr>
+<td>系统环境变量路径</td>
+<td>$ENV{LIB}, $ENV{PATH}</td>
+<td>NO_SYSTEM_ENVIRONMENT_PATH</td>
+</tr>
+<tr>
+<td>平台相关路径</td>
+<td>${CMAKE_SYSTEM_PREFIX_PATH}, ${CMAKE_SYSTEM_LIBRARY_PATH}, ${CMAKE_SYSTEM_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_SYSTEM_PATH</td>
+</tr>
+<tr>
+<td>PATHS 候选路径</td>
+<td>&lt;候选路径&gt;</td>
+<td>——</td>
+</tr>
+</tbody>
+</table>
+<p>在 Windows 操作系统中，系统环境变量路径 <code>$ENV&#123;PATH&#125;</code> 的值一般会被追加 <code>lib</code> 子目录后作为搜索路径。若环境变量存在以 <code>bin</code> 或 <code>sbin</code> 的值，则取其上层目录并追加 <code>lib[/&lt;架构&gt;]</code> 作为搜索路径。</p>
+<p>另外，该命令还有一个 NAMES_PER_DIR 参数，用于改变查找库文件的策略。默认情况下，如果通过 NAMES 参数指定了多个候选的 &lt;库名称&gt;，该命令会依次搜索候选的 &lt;库名称&gt;，并且对每一个 &lt;库名称&gt; 都会遍历全部搜索路径。但如果指定了 NAMES_PER_DIR 参数，那么就会反过来依次在每一个搜索路径中尝试查找全部的候选 &lt;库路径&gt;。换句话说，默认是库优先搜索，指定该参数后是目录优先搜索。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">4.0</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_library</span>(res1 NAMES <span class="number">1</span> <span class="number">2</span> HINTS a b PATH_SUFFIXES b)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;res1: $&#123;res1&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">find_library</span>(res2 NAMES <span class="number">2</span> <span class="number">1</span> HINTS b a PATH_SUFFIXES a)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;res2: $&#123;res2&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="3-查找目录：find-path">3. 查找目录：find_path</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单形式</span></span><br><span class="line"><span class="keyword">find_path</span>(&lt;结果缓存变量&gt; &lt;库名称&gt; [&lt;候选路径&gt;...])</span><br><span class="line"><span class="comment"># 完整形式</span></span><br><span class="line"><span class="keyword">find_path</span>(&lt;结果缓存变量&gt; </span><br><span class="line">    &lt;文件名&gt; | NAMES &lt;候选文件名&gt;...</span><br><span class="line">    [HINTS|PATHS [&lt;候选路径&gt;|ENV &lt;候选路径环境变量&gt;]...]</span><br><span class="line">    [PATH_SUFFIXES &lt;子目录&gt;...]</span><br><span class="line">    [DOC &lt;结果缓存变量的描述&gt;]</span><br><span class="line">    [REQUIRED]</span><br><span class="line">    [&lt;搜索路径选项&gt;...]</span><br><span class="line">    [CMAKE_FIND_ROOT_PATH_BOTH | ONLY_CMAKE_FIND_ROOT_PATH | NO_CMAKE_FIND_ROOT_PATH]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令用于查找指定 &lt;文件名&gt; 所在目录的绝对路径，并将其存入 &lt;结果缓存变量&gt;。尽管该命令的结果是一个目录路径，但也需要先搜索到指定的文件，因此该命令的参数即搜索路径的顺序等均与 <code>find_file</code> 命令对应一致。</p>
+<h3 id="4-查找可执行文件：find-program">4. 查找可执行文件：find_program</h3>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单形式</span></span><br><span class="line"><span class="keyword">find_program</span>(&lt;结果缓存变量&gt; &lt;文件名&gt; [&lt;候选路径&gt;...])</span><br><span class="line"><span class="comment"># 完整形式</span></span><br><span class="line"><span class="keyword">find_program</span>(&lt;结果缓存变量&gt; </span><br><span class="line">    &lt;文件名&gt; | NAMES &lt;候选文件名&gt;... [NAMES_PER_DIR]</span><br><span class="line">    [HINTS|PATHS [&lt;候选路径&gt;|ENV &lt;候选路径环境变量&gt;]...]</span><br><span class="line">    [PATH_SUFFIXES &lt;子目录&gt;...]</span><br><span class="line">    [DOC &lt;结果缓存变量的描述&gt;]</span><br><span class="line">    [REQUIRED]</span><br><span class="line">    [&lt;搜索路径选项&gt;...]</span><br><span class="line">    [CMAKE_FIND_ROOT_PATH_BOTH | ONLY_CMAKE_FIND_ROOT_PATH | NO_CMAKE_FIND_ROOT_PATH]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令用于查找 &lt;文件名&gt; 对应的可执行文件的绝对路径，并将其存入 &lt;结果缓存变量&gt; 中。该命令的参数与 <code>find_library</code> 一致。</p>
+<table>
+<thead>
+<tr>
+<th>路径类型</th>
+<th>路径样例</th>
+<th>禁用选项参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>软件包根目录</td>
+<td>&lt;软件包根目录&gt;/lib/[/&lt;架构&gt;]</td>
+<td>NO_PACKAGE_ROOT_PATH</td>
+</tr>
+<tr>
+<td>CMake 变量路径</td>
+<td>${CMAKE_PREFIX_PATH}/lib/[/&lt;架构&gt;], ${CMAKE_PROGRAM_PATH}, ${CMAKE_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_PATH</td>
+</tr>
+<tr>
+<td>CMake 环境变量路径</td>
+<td>$ENV{CMAKE_PREFIX_PATH}/lib/[/&lt;架构&gt;], $ENV{CMAKE_PROGRAM_PATH}, $ENV{CMAKE_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_ENVIRONMENT_PATH</td>
+</tr>
+<tr>
+<td>HINTS候选路径</td>
+<td>&lt;候选路径&gt;</td>
+<td>——</td>
+</tr>
+<tr>
+<td>系统环境变量路径</td>
+<td>$ENV{LIB}, $ENV{PATH}</td>
+<td>NO_SYSTEM_ENVIRONMENT_PATH</td>
+</tr>
+<tr>
+<td>平台相关路径</td>
+<td>${CMAKE_SYSTEM_PREFIX_PATH}, ${CMAKE_SYSTEM_PROGRAM_PATH}, ${CMAKE_SYSTEM_FRAMEWORK_PATH}</td>
+<td>NO_CMAKE_SYSTEM_PATH</td>
+</tr>
+<tr>
+<td>PATHS 候选路径</td>
+<td>&lt;候选路径&gt;</td>
+<td>——</td>
+</tr>
+</tbody>
+</table>
+<p>实例如下，得到的结果应该一致。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">4.0</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"></span><br><span class="line"><span class="keyword">find_program</span>(res cmake)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;res: $&#123;res&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;CMAKE_COMMAND: $&#123;CMAKE_COMMAND&#125;&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="5-与查找参数相关的变量">5. 与查找参数相关的变量</h3>
+<p><code>find_package</code> 命令会调用名为 <code>Find&lt;软件包名&gt;.cmake</code> 的查找模块来完成对软件包的搜索，在外面自己编写的 <code>Find&lt;软件包名&gt;.cmake</code> 查找模块中获取 <code>find_package</code> 命令提供的参数方法如下：</p>
+<p>在 <code>find_package</code> 命令被调用时，会根据调用者提供的参数定义一系列变量来描述查找的要求，如下表所示，仅作用于查找模块的作用域。</p>
+<table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMAKE_FIND_PACKAGE_NAME</td>
+<td>当前搜索中的 &lt;软件包名&gt;</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FIND_REQUIRED</td>
+<td>是否指定了 REQUIRED 参数</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FIND_QUIETLY</td>
+<td>是否指定了 QUIET 参数</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FIND_VERSION_EXACT</td>
+<td>是否指定了 EXACT 参数</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FIND_COMPONENTS</td>
+<td>要搜索的软件包子组件的列表，包括必须组件和可选组件</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;<em>FIND_REQUIRED</em>&lt;子组件&gt;</td>
+<td>&lt;子组件&gt; 是否是必要组件</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FIND_VERSION_COMPLETE</td>
+<td>指定的 &lt;版本号&gt; 参数原始字符串</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FIND_VERSION</td>
+<td>要搜索的软件包版本号的完整字符串</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-查找条件变量">6. 查找条件变量</h3>
+<p>查找条件变量一般是可以修改编辑的缓存变量，这样，当用户未定义它们时，查找模块就可以借助前面介绍的 <code>find_file</code>，<code>find_library</code> 等命令查找相关文件或目录的路径，并设置这些缓存变量；当用于定义了这些缓存变量时，它们对应的查找命令也可以自动跳过。查找模块支持的查找条件变量应当由查找模块的制作者在程序注释中详细描述，一般来说，查找模块一般都会提供下表所示的查找条件变量。</p>
+<table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;软件包名&gt;_LIBRARY</td>
+<td>用于设置库文件的路径。该变量通常作为 <code>find_library</code> 的结果变量（该变量仅适用于值包含一个库文件的软件包）</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_&lt;库名&gt;_LIBRARAY</td>
+<td>用于设置软件包中 &lt;库名&gt; 对应的库文件的路径。该变量也通常作为 <code>find_library</code> 的结果变量</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_INCLUDE_DIR</td>
+<td>用于设置头文件搜索目录。该变量通常作为 <code>find_path</code> 的结果变量</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_&lt;库名&gt;_INCLUDE_DIR</td>
+<td>用于设置软件包中 &lt;库名&gt; 对应的库的头文件搜索目录。该变量也通常作为 <code>find_path</code> 的结果变量</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-查找结果变量">7. 查找结果变量</h3>
+<p>查找模块最终会将查找到的第三方软件包的相关信息存入一些变量中，这些变量的命令遵循一定惯例：通常都将 &lt;软件包名&gt;_ 作为前缀（大小写也应一致）。这样可以避免不同查找模块的结果变量的名称出现冲突。</p>
+<p>下表是一些常见的查找结果变量：</p>
+<table>
+<thead>
+<tr>
+<th>变量名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;软件包名&gt;_INCLUDE_DIRS</td>
+<td>头文件搜索目录列表</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_LIBRARIES</td>
+<td>库列表。其中的元素可以是库目标的名称，库文件的绝对路径，或位于库文件搜索目录的库名称</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_DEFINITIONS</td>
+<td>作为使用要求的编译器宏定义</td>
+</tr>
+<tr>
+<td>&lt;可执行文件名&gt;_EXECUTABLE</td>
+<td>可执行文件的绝对路径，通常是缓存变量，作为 <code>find_program</code> 的结果变量</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_LIBRARY_DIRS</td>
+<td>库文件搜索目录</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_RUNTIME_LIBRARY_DIRS</td>
+<td>运行是库文件搜索目录</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_ROOT_DIR</td>
+<td>软件包的根目录路径</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_FOUND</td>
+<td>软件包是否成功查找到</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_&lt;子组件&gt;_FOUND</td>
+<td>软件包对应的 &lt;子组件&gt; 是否成功查找到</td>
+</tr>
+<tr>
+<td>&lt;软件包名&gt;_VERSION, &lt;软件包名&gt;_VERSION_STRING, &lt;软件包名&gt;_VERSION_MAJOR, &lt;软件包名&gt;_VERSION_MINOR, &lt;软件包名&gt;_VERSION_PATCH</td>
+<td>查找到的软件包的版本号的指定部分</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-FindPackageHandleStandardArgs">8. FindPackageHandleStandardArgs</h3>
+<p><code>FindPackageHandleStandardArgs</code> 模块是一个 CMake 预置的功能模块，提供了两个命令，可以在自定义查找模块中判断结果变量是否都已经正确赋值，同时还能检查找到的软件包版本号等信息是否满足查找要求。</p>
+<p><strong>检查条件变量：find_package_handle_standard_args</strong></p>
+<p>该命令的名称与模块名称一致，也是该模块提供的最重要的命令。它具有如下简单形式和完整形式：</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简单形式</span></span><br><span class="line">find_package_handle_standard_args(&lt;软件包名&gt;</span><br><span class="line">    DEFAULT_MSG|&lt;自定义错误&gt;</span><br><span class="line">    &lt;待检查的变量&gt;...</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 完整形式</span></span><br><span class="line">find_package_handle_standard_args(&lt;软件包名&gt;</span><br><span class="line">    [REQUIRED_VARS &lt;待检查的变量&gt;...]</span><br><span class="line">    [VERSION_VAR &lt;版本号变量&gt;]</span><br><span class="line">    [HANDLE_VERSION_RANGE]</span><br><span class="line">    [HANDLE_COMPONENTS]</span><br><span class="line">    [REASON_FALLURE_MESSAGE &lt;错误原因&gt;]</span><br><span class="line">    [FAIL_MESSAGE &lt;自定义错误&gt;]</span><br><span class="line">    [NAME_MISMATCHED]</span><br><span class="line">    [CONFIG_MODE]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>其中，简单形式的 DEFAULT_MSG 参数表示在查找失败时输出默认错误信息，其他参数与完整形式中同名参数的含义相同，因此接下来仅会介绍完整形式中的参数。</p>
+<p>该命令会检查 &lt;待检查的变量&gt; 中的值是否都是有效值，检查 &lt;版本号变量&gt; 的值是否满足 <code>find_package</code> 的参数设置，子组件是否都已经成功查找等，并根据这些检查结果设置 &lt;查找结果状态变量&gt; 的值。当所有检查均通过时，其值为真，否则为假。</p>
+<p><code>RQUIRED_VARS</code> 参数用于设置 &lt;待检查的变量&gt;。当这些变量未被正确定义时，该命令会报告错误，要求用户设置缺失的变量值。这些变量应当是可以设置的缓存变量，如查找条件变量，因此该参数通常用于检查 <code>find_file</code> 等查找命令的结果路径是否被正确设置。</p>
+<p><code>VERSION_VAR</code> 参数用于设置 &lt;版本号变量&gt;。该命令会检查 &lt;版本号变量&gt; 的值是否与调用 <code>find_package</code> 命令时通过参数设置的版本号相匹配。若想让该命令检查其值是否满足区间形式的版本号要求，需要额外指定 <code>HANDLE_VERSION_RANGE</code> 参数。</p>
+<p>指定 <code>HANDLE_COMPONENTS</code> 参数后，该命令会检查所有的必要子组件是否成功查找到（可选子组件不会被检查），也就是检查这些子组件对应的 &lt;软件包名&gt;_&lt;子组件&gt;_FOUND 变量是否均为真值。</p>
+<p><code>REASON_FIALLURE_MESSAGE</code> 参数可以用于补充 &lt;错误原因&gt;，并被追加到输出的软件包查找失败提示信息之后。而 <code>FAIL_MESSAGE</code> 参数用于指定 &lt;自定义错误&gt;，替代默认的软件包查找失败提示信息，因此一般不推荐设置改参数。</p>
+<p><strong>检查版本号：find_package_check_version</strong></p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">find_package_check_version(</span><br><span class="line">    &lt;版本号&gt; &lt;结果变量&gt;</span><br><span class="line">    [HANDLE_VERSION_RANGE]</span><br><span class="line">    [RESULT_MESSAGE_VARIABLE &lt;检查信息变量&gt;]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>该命令用于检查 &lt;版本号&gt; 是否满足 <code>find_package</code> 命令被调用时所设置的版本号参数的要求，并将检查结果以布尔值存入 &lt;结果变量&gt;。</p>
+<p>HANDLE_VERSION_RANGE 参数同样用于设置是否支持对版本号区间形式的检查。</p>
+<p>检查结果的详细信息会存入 &lt;检查信息变量&gt;。一般会将其值在检查后输出。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 只能在 Find Module 中使用</span></span><br><span class="line">find_package_check_version(<span class="number">1.2</span>.<span class="number">0</span> res</span><br><span class="line">    HANDLE_VERSION_RANGE</span><br><span class="line">    RESULT_MESSAGE_VARIABLE msg</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(res)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;$&#123;msg&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(FATAL_ERROR <span class="string">&quot;$&#123;msg&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="9-实例：onnxruntime-的查找模块">9. 实例：onnxruntime 的查找模块</h3>
+<p>从 github 上下载 onnxruntime 版本，貌似 1.21.0 有问题，这里使用 1.20.1 版本。解压到当前文件目录，目录结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├─build</span><br><span class="line">├─onnxruntime-win-x64-1.20.1</span><br><span class="line">│  ├─include</span><br><span class="line">│  └─lib</span><br></pre></td></tr></table></figure>
+<p>接下来编写 <code>CMakeLists.txt</code> 和 <code>Findonnxruntime.cmake</code> 以及 <code>main.cpp</code> 文件</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Findonnxruntime.cmake</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查 onnxruntime_ROOT 环境变量是否定义</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">NOT</span> <span class="keyword">DEFINED</span> ENV&#123;onnxruntime_ROOT&#125;)</span><br><span class="line">    <span class="comment"># 如果没有定义，那么定义 onnxruntime_ROOT</span></span><br><span class="line">    <span class="keyword">set</span>(onnxruntime_ROOT <span class="string">&quot;$&#123;CMAKE_CURRENT_LIST_DIR&#125;/onnxruntime-win-x64-1.20.1&quot;</span>)</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">&quot;onnxruntime_ROOT environment variable is not set. Using default: $&#123;onnxruntime_ROOT&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>()</span><br><span class="line">    <span class="comment"># 如果定义了，从环境变量中定义变为局部定义</span></span><br><span class="line">    <span class="keyword">set</span>(onnxruntime_ROOT <span class="string">&quot;$ENV&#123;onnxruntime_ROOT&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找头文件目录</span></span><br><span class="line"><span class="keyword">find_path</span>(onnxruntime_INCLUDE_DIR onnxruntime_cxx_api.h</span><br><span class="line">    HINTS <span class="variable">$&#123;onnxruntime_ROOT&#125;</span></span><br><span class="line">    PATH_SUFFIXES <span class="keyword">include</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;onnxruntime_INCLUDE_DIR: $&#123;onnxruntime_INCLUDE_DIR&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找库文件</span></span><br><span class="line"><span class="keyword">find_library</span>(onnxruntime_LIBRARY onnxruntime</span><br><span class="line">    HINTS <span class="variable">$&#123;onnxruntime_ROOT&#125;</span></span><br><span class="line">    PATH_SUFFIXES lib</span><br><span class="line">)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;onnxruntime_LIBRARY: $&#123;onnxruntime_LIBRARY&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找版本文件，就是 onnxruntime_ROOT 下的 VERSION_NUMBER 文件</span></span><br><span class="line"><span class="keyword">find_file</span>(onnxruntime_VERSION_FILE VERSION_NUMBER</span><br><span class="line">    HINTS <span class="variable">$&#123;onnxruntime_ROOT&#125;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;onnxruntime_VERSION_FILE: $&#123;onnxruntime_VERSION_FILE&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理版本文件缺失的情况</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">NOT</span> onnxruntime_VERSION_FILE)</span><br><span class="line">    <span class="keyword">message</span>(WARNING <span class="string">&quot;VERSION_NUMBER file not found. Version information will not be available.&quot;</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取版本信息</span></span><br><span class="line"><span class="keyword">if</span>(onnxruntime_VERSION_FILE)</span><br><span class="line">    <span class="keyword">file</span>(STRINGS <span class="variable">$&#123;onnxruntime_VERSION_FILE&#125;</span> onnxruntime_VERSION LIMIT_COUNT <span class="number">1</span>)</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">&quot;onnxruntime_VERSION: $&#123;onnxruntime_VERSION&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 包含标准查找包处理模块</span></span><br><span class="line"><span class="keyword">include</span>(FindPackageHandleStandardArgs)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理查找结果</span></span><br><span class="line">find_package_handle_standard_args(onnxruntime</span><br><span class="line">    REQUIRED_VARS onnxruntime_LIBRARY onnxruntime_INCLUDE_DIR</span><br><span class="line">    VERSION_VAR onnxruntime_VERSION</span><br><span class="line">    HANDLE_VERSION_RANGE</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(onnxruntime_FOUND)</span><br><span class="line">    <span class="comment"># 设置包含目录和库文件变量</span></span><br><span class="line">    <span class="keyword">set</span>(onnxruntime_INCLUDE_DIRS <span class="variable">$&#123;onnxruntime_INCLUDE_DIR&#125;</span>)</span><br><span class="line">    <span class="keyword">set</span>(onnxruntime_LIBRARIES <span class="variable">$&#123;onnxruntime_LIBRARY&#125;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 导入共享库</span></span><br><span class="line">    <span class="keyword">add_library</span>(onnxruntime::onnxruntime SHARED IMPORTED)</span><br><span class="line">    <span class="comment"># 设置头文件包含目录</span></span><br><span class="line">    <span class="keyword">target_include_directories</span>(onnxruntime::onnxruntime INTERFACE <span class="variable">$&#123;onnxruntime_INCLUDE_DIRS&#125;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在 Windows 操作系统中，导入动态库的 IMPORTED_IMPLIB 属性应设置为动态库的导入库(.lib而不是.dll)的路径</span></span><br><span class="line">    <span class="keyword">if</span>(WIN32)</span><br><span class="line">        <span class="keyword">set_target_properties</span>(onnxruntime::onnxruntime PROPERTIES</span><br><span class="line">            IMPORTED_IMPLIB <span class="variable">$&#123;onnxruntime_LIBRARIES&#125;</span></span><br><span class="line">        )</span><br><span class="line">    <span class="comment"># 在其他平台中，导入动态库的 IMPORTED_LOCATION 属性应设置为动态库文件自身的路径</span></span><br><span class="line">    <span class="keyword">elseif</span>(UNIX)</span><br><span class="line">        <span class="keyword">set_target_properties</span>(onnxruntime::onnxruntime PROPERTIES</span><br><span class="line">            IMPORTED_LOCATION <span class="variable">$&#123;onnxruntime_LIBRARIES&#125;</span></span><br><span class="line">        )</span><br><span class="line">    <span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.20</span>)</span><br><span class="line"><span class="keyword">project</span>(demo)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里 CMAKE_MODULE_PATH 设置为当前目录，因为 Findonnxruntime.cmake 在这个目录下</span></span><br><span class="line"><span class="keyword">set</span>(CMAKE_MODULE_PATH <span class="string">&quot;$&#123;CMAKE_CURRENT_LIST_DIR&#125;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;CMAKE_MODULE_PATH: $&#123;CMAKE_MODULE_PATH&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里定义 onnxruntime_ROOT的路径，与 Findonnxruntime.cmake 中第一个命令对应</span></span><br><span class="line"><span class="keyword">if</span>(<span class="string">&quot;$ENV&#123;onnxruntime_ROOT&#125;&quot;</span> <span class="keyword">STREQUAL</span> <span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span>(WIN32)</span><br><span class="line">        <span class="keyword">set</span>(ENV&#123;onnxruntime_ROOT&#125; <span class="string">&quot;$&#123;CMAKE_CURRENT_LIST_DIR&#125;/onnxruntime-win-x64-1.20.1&quot;</span>)</span><br><span class="line">    <span class="keyword">endif</span>(WIN32)</span><br><span class="line"><span class="keyword">endif</span>(<span class="string">&quot;$ENV&#123;onnxruntime_ROOT&#125;&quot;</span> <span class="keyword">STREQUAL</span> <span class="string">&quot;&quot;</span>)</span><br><span class="line"><span class="keyword">message</span>(<span class="string">&quot;onnxruntime_ROOT: $ENV&#123;onnxruntime_ROOT&#125;&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从这里就开始从 Findonnxruntime.cmake 中开始处理了</span></span><br><span class="line"><span class="keyword">find_package</span>(onnxruntime <span class="number">1.20</span>.<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">add_executable</span>(main main.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加链接目标 onnxruntime::onnxruntime</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(main onnxruntime::onnxruntime)</span><br></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;onnxruntime_cxx_api.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Ort::Env env;</span><br><span class="line">    <span class="function">Ort::Session <span class="title">session</span><span class="params">(env, ORT_TSTR(<span class="string">&quot;&quot;</span>), Ort::SessionOptions(<span class="literal">nullptr</span>))</span></span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里运行的时候，可能会出现 <code>bug</code>，报错 <code>The given version [16] is not supported, only version 1 to 10 is supported in this build.</code>，这是因为在 <code>windows/systems32</code> 文件夹下存在 <code>onnxruntime.dll</code> 文件，会被程序优先链接，由于其版本落后则产生了如上的报错信息。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zhouyi207.github.io">螃蟹</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhouyi207.github.io/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B9%9D%E7%AB%A0/">https://zhouyi207.github.io/2025/04/12/CMake项目构建/第九章/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhouyi207.github.io" target="_blank">螃蟹</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CMake/">CMake</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/04/14/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%8D%81%E7%AB%A0/" title="第十章：策略和向后兼容"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">第十章：策略和向后兼容</div></div><div class="info-2"><div class="info-item-1">CMake 相当重视向后兼容性，CMake 的策略机制就是为了解决向后兼容问题而产生的。有了策略机制，CMake 可以基本确保基于旧版本 CMake 编写的目录程序可以被新版本的 CMake 配置生成。 1. CMake 策略（以 CMP0115 为例） CMake 策略的名称以 CMP 开头，后面跟着一个代表策略编号的四位整数，如 CMP0115 就是第 115 号策略。每一个策略都对应着新旧两种不同行为：NEW 行为和 OLD 行为。 借助官方文档查阅 CMake 策略 CMake 官方文档依次列举 CMake 从新到旧的各个版本引入的策略，每个策略都会提供一段摘要以便查阅，以 CMake 3.20 版本引入的 CMP0115 策略，它的摘要是 “源文件扩展名必须显示指定”。 在 CMake 3.19 及以前的版本中，为 add_executable 等命令指定 &lt;源文件&gt; 参数时，可以省略源文件的扩展名，如 add_executable(A main)，CMake 会自动根据项目采用的编程语言尝试为其添加扩展名并查找对应的源文件。然而在 CMake 3.20...</div></div></div></a><a class="pagination-related" href="/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%85%AB%E7%AB%A0/" title="第八章：生成器表达式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">第八章：生成器表达式</div></div><div class="info-2"><div class="info-item-1">CMake 在生成阶段，能够根据具体选用的构建系统生成器生成特定的配置，因此生成器表达式常常用于获取与构建系统相关的信息，如当前构建模式（DEBUG 或 RELEASE 等），构建目标对应的二进制文件名称等。一般来说，这些信息在构建系统生成器之前，也就是在配置阶段时，是无从知晓的。不过也有一些特殊情况，如对于单构建模式的构建系统来说，当前构建模式是在配置阶段由 CMAKE_BUILD_TYPE 变量确定的。不过，生成器表达式对它们同样有效，因此更为通用。 在构建跨平台程序的过程中，可能涉及不同的构建系统，而生成器表达式对它们之间的差异做了很好的封装隐藏，因此不可避免地会用到生成器表达式。生成器表达式大体分为两类：布尔型生成器表达式和字符串生成器表达式。 1. 支持生成器表达式的命令 很多命令支持将生成器表达式作为参数的一部分，基本上只要在生成阶段工作的命令都会对生成器表达式有所支持。  string(GENEX_STRIP) 命令用于删除输入字符串中的生成器表达式。事实上，该命令与生成器表达式的解析无关，因为它仅仅是根据语法删除字符串中的生成器表达式。该命令在 CMake...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/04/15/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%AF%87/" title="CMake项目构建：安装配置篇"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-15</div><div class="info-item-2">CMake项目构建：安装配置篇</div></div><div class="info-2"><div class="info-item-1">MSYS2 1. 首先安装 MSYS2 安装包下载位置：https://www.msys2.org/ 确认下载位置：short ASCII-only path on a NTFS volume, no accents, no spaces, no symlinks, no subst or network drives, no FA. 这里我选择的安装位置为 D:\msys64  安装完毕后，点击完成  会默认打开 UCRT64 environment  MSYS2 提供了不同的环境，您首先需要决定使用哪个环境。不同环境之间的主要区别在于环境变量、默认编译器/链接器、架构、使用的系统库等。如果您不确定，请选择 UCRT64。 2. 更新系统 下面命令会更新软件包数据库并尝试更新所有已安装的软件包。 执行过程中可能需要关闭并重新打开终端 1pacman -Syu 然后再次运行下面命令完成更新。 1pacman -Su 2. 安装工具 在 MSYS2 MINGW64 中安装工具 工具链相关 1pacman -S --needed git base-devel...</div></div></div></a><a class="pagination-related" href="/2025/04/10/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B8%83%E7%AB%A0/" title="第七章：构建目标和属性"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-10</div><div class="info-item-2">第七章：构建目标和属性</div></div><div class="info-2"><div class="info-item-1">1. 二进制构建目标 在构建过程中被构建的可执行文件，库文件或目标文件都可以作为二进制构建目标，二进制构建目标是全局可见的。也就是说，无论在哪个子目录的 CMake 目录程序中创建了一个二进制构建目标，够可以被当前项目中其他的 CMake 目录程序访问到。 1. 可执行文件目标 12345add_executable(&lt;目标名称&gt;    [WIN32] [MACOSX_BUNDLE]    [EXCLUDE_FROM_ALL]    [&lt;源文件&gt;...]) 该命令会创建一个可执行文件类型的构建目标，其中第一个参数 &lt;目标名称&gt; 是必选参数，且应当在项目中唯一。 &lt;源文件&gt; 参数用于指定该可执行文件的源文件路径，该参数可以被暂时省略，CMake 允许先创建构建目标，再通过 target_sources 命令设置所需的源程序&gt; WIN32 参数用于将该目标的 WIN32_EXECUTABLE 属性设置为真值，该属性仅作用于 Windows 中，表示使用 WinMain 而不是使用 main...</div></div></div></a><a class="pagination-related" href="/2025/04/09/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%BA%94%E7%AB%A0/" title="第五章：实践：CMake 快速排序"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-09</div><div class="info-item-2">第五章：实践：CMake 快速排序</div></div><div class="info-2"><div class="info-item-1">1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162# 数列划分## arr: 数列# pivot: 基准值# left: 左指针# right: 右指针function(partition arr pivot left right)    # 遍历数列    foreach(x $&#123;arr&#125;)        # 根据当前值与基准值的比较结果，分别将当前值追加到不同的子数列中        if($&#123;x&#125; LESS $&#123;pivot&#125;)            list(APPEND _left $&#123;x&#125;)        else()            list(APPEND _right $&#123;x&#125;)        endif()    endforeach(x $&#123;arr&#125;)    ...</div></div></div></a><a class="pagination-related" href="/2025/03/18/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" title="第二章：CMake 简介"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-18</div><div class="info-item-2">第二章：CMake 简介</div></div><div class="info-2"><div class="info-item-1">1. 为什么使用 CMake  平台无关 和 编译器无关 开源自由 和 优秀的社区生态 强大通用的脚本语言 稳定地向后兼容 持续不断得改进和推出新特性  2. 安装 CMake 直接进入官网下载对应系统版本的安装文件：https://cmake.org/download/ 安装包和压缩包的区别：  安装包可以按照说明一步步完成安装过程； 压缩包需要手动解压到某一目录，同时相关的系统配置也需要人工完成，如设置 PATH 系统环境变量等；  3. Hello, CMake 创建文件 hello.cmake，代码如下所示： 1message(hello,cmake) 在终端中输入下面代码运行 1cmake -P hello.cmake 可以看到输出 hello, cmake </div></div></div></a><a class="pagination-related" href="/2025/03/18/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B8%89%E7%AB%A0/" title="第三章：CMake 基础语法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-18</div><div class="info-item-2">第三章：CMake 基础语法</div></div><div class="info-2"><div class="info-item-1">1. CMake 程序 CMake 程序根据程序名，可以分为以下两种类型：  名为 CMakeLists.txt 的文件 拓展名为 .cmake 的程序  其中 CMakeLists.txt 文件用于组织构建项目源程序的目录结构。拓展名为 .cmake 的程序又分为 脚本程序 和 模块程序 两种类型。 1. CMakeLists.txt 当 CMake 被用于构建时，处理源程序的入口就是项目顶层目录下的 CMakeLists.txt 文件，这与 Makefile 相似。在 CMakeLists.txt 中，可能还会通过 add_subdirectory 命令将一些子目录追加到构建目录中，这要求子目录中也又一个 CMakeLists.txt 2. 脚本程序.cmake 指定 -P 参数运行 CMake 命令行工具可以执行脚本类型的 CMake 程序，这种 CMake 程序不会配置生成任何构建系统，因此一些与构建相关的 CMake 命令是不允许出现在脚本中的。 3. 模块程序.cmake CMake 的目录程序 和 脚本程序均可以通过 include 等命令引用 CMake...</div></div></div></a><a class="pagination-related" href="/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%85%AB%E7%AB%A0/" title="第八章：生成器表达式"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-12</div><div class="info-item-2">第八章：生成器表达式</div></div><div class="info-2"><div class="info-item-1">CMake 在生成阶段，能够根据具体选用的构建系统生成器生成特定的配置，因此生成器表达式常常用于获取与构建系统相关的信息，如当前构建模式（DEBUG 或 RELEASE 等），构建目标对应的二进制文件名称等。一般来说，这些信息在构建系统生成器之前，也就是在配置阶段时，是无从知晓的。不过也有一些特殊情况，如对于单构建模式的构建系统来说，当前构建模式是在配置阶段由 CMAKE_BUILD_TYPE 变量确定的。不过，生成器表达式对它们同样有效，因此更为通用。 在构建跨平台程序的过程中，可能涉及不同的构建系统，而生成器表达式对它们之间的差异做了很好的封装隐藏，因此不可避免地会用到生成器表达式。生成器表达式大体分为两类：布尔型生成器表达式和字符串生成器表达式。 1. 支持生成器表达式的命令 很多命令支持将生成器表达式作为参数的一部分，基本上只要在生成阶段工作的命令都会对生成器表达式有所支持。  string(GENEX_STRIP) 命令用于删除输入字符串中的生成器表达式。事实上，该命令与生成器表达式的解析无关，因为它仅仅是根据语法删除字符串中的生成器表达式。该命令在 CMake...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">螃蟹</div><div class="author-info-description">冲冲冲</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zhouyi207"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="zhihu"><i class="fa-brands fa-weixin" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E7%94%A8%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-text">1. 引用功能模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E7%9A%84%E9%A2%84%E7%BD%AE%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97"><span class="toc-text">2. 常用的预置功能模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%94%A8%E4%BA%8E%E8%B0%83%E8%AF%95%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="toc-text">1. 用于调试的模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8%E4%BA%8E%E6%A3%80%E6%9F%A5%E7%8E%AF%E5%A2%83%E7%9A%84%E6%A8%A1%E5%9D%97"><span class="toc-text">2. 用于检查环境的模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%A8%E4%BA%8E%E7%94%9F%E6%88%90%E5%AF%BC%E5%87%BA%E5%A4%B4%E6%96%87%E4%BB%B6%E7%9A%84%E6%A8%A1%E5%9D%97%EF%BC%9AGenerateExportHeader"><span class="toc-text">3. 用于生成导出头文件的模块：GenerateExportHeader</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%9F%A5%E6%89%BE%E6%A8%A1%E5%9D%97"><span class="toc-text">3. 查找模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9F%A5%E6%89%BE%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%91%BD%E4%BB%A4%EF%BC%9Afind-package%EF%BC%88%E6%A8%A1%E5%9D%97%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="toc-text">1. 查找软件包命令：find_package（模块模式）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%9E%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8-FindThreads-%E5%BC%95%E7%94%A8%E7%BA%BF%E7%A8%8B%E5%BA%93"><span class="toc-text">2. 实例：使用 FindThreads 引用线程库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%96%E5%86%99%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9F%A5%E6%89%BE%E6%A8%A1%E5%9D%97"><span class="toc-text">4. 编写自定义查找模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%9F%A5%E6%89%BE%E6%96%87%E4%BB%B6"><span class="toc-text">1. 查找文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%9F%A5%E6%89%BE%E5%BA%93%E6%96%87%E4%BB%B6"><span class="toc-text">2. 查找库文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9F%A5%E6%89%BE%E7%9B%AE%E5%BD%95%EF%BC%9Afind-path"><span class="toc-text">3. 查找目录：find_path</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%9F%A5%E6%89%BE%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%EF%BC%9Afind-program"><span class="toc-text">4. 查找可执行文件：find_program</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E4%B8%8E%E6%9F%A5%E6%89%BE%E5%8F%82%E6%95%B0%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8F%98%E9%87%8F"><span class="toc-text">5. 与查找参数相关的变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%9F%A5%E6%89%BE%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F"><span class="toc-text">6. 查找条件变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9F%A5%E6%89%BE%E7%BB%93%E6%9E%9C%E5%8F%98%E9%87%8F"><span class="toc-text">7. 查找结果变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-FindPackageHandleStandardArgs"><span class="toc-text">8. FindPackageHandleStandardArgs</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E5%AE%9E%E4%BE%8B%EF%BC%9Aonnxruntime-%E7%9A%84%E6%9F%A5%E6%89%BE%E6%A8%A1%E5%9D%97"><span class="toc-text">9. 实例：onnxruntime 的查找模块</span></a></li></ol></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/15/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%AF%87/" title="CMake项目构建：安装配置篇">CMake项目构建：安装配置篇</a><time datetime="2025-04-14T16:00:00.000Z" title="发表于 2025-04-15 00:00:00">2025-04-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/14/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%8D%81%E7%AB%A0/" title="第十章：策略和向后兼容">第十章：策略和向后兼容</a><time datetime="2025-04-13T16:00:00.000Z" title="发表于 2025-04-14 00:00:00">2025-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%85%AB%E7%AB%A0/" title="第八章：生成器表达式">第八章：生成器表达式</a><time datetime="2025-04-11T16:00:00.000Z" title="发表于 2025-04-12 00:00:00">2025-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B9%9D%E7%AB%A0/" title="第九章：模块">第九章：模块</a><time datetime="2025-04-11T16:00:00.000Z" title="发表于 2025-04-12 00:00:00">2025-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/10/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B8%83%E7%AB%A0/" title="第七章：构建目标和属性">第七章：构建目标和属性</a><time datetime="2025-04-09T16:00:00.000Z" title="发表于 2025-04-10 00:00:00">2025-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%BA%94%E7%AB%A0/" title="第五章：实践：CMake 快速排序">第五章：实践：CMake 快速排序</a><time datetime="2025-04-08T16:00:00.000Z" title="发表于 2025-04-09 00:00:00">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/09/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%85%AD%E7%AB%A0/" title="第六章：CMake 构建初探">第六章：CMake 构建初探</a><time datetime="2025-04-08T16:00:00.000Z" title="发表于 2025-04-09 00:00:00">2025-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/22/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%9B%9B%E7%AB%A0/" title="第四章：CMake 常用命令">第四章：CMake 常用命令</a><time datetime="2025-03-21T16:00:00.000Z" title="发表于 2025-03-22 00:00:00">2025-03-22</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/18/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%BA%8C%E7%AB%A0/" title="第二章：CMake 简介">第二章：CMake 简介</a><time datetime="2025-03-17T16:00:00.000Z" title="发表于 2025-03-18 00:00:00">2025-03-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/18/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B8%89%E7%AB%A0/" title="第三章：CMake 基础语法">第三章：CMake 基础语法</a><time datetime="2025-03-17T16:00:00.000Z" title="发表于 2025-03-18 00:00:00">2025-03-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/03/15/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B8%80%E7%AB%A0/" title="第一章：项目构建基本介绍">第一章：项目构建基本介绍</a><time datetime="2025-03-14T16:00:00.000Z" title="发表于 2025-03-15 00:00:00">2025-03-15</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/15/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%AF%87/" title="CMake项目构建：安装配置篇">CMake项目构建：安装配置篇</a><time datetime="2025-04-14T16:00:00.000Z" title="发表于 2025-04-15 00:00:00">2025-04-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/14/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%8D%81%E7%AB%A0/" title="第十章：策略和向后兼容">第十章：策略和向后兼容</a><time datetime="2025-04-13T16:00:00.000Z" title="发表于 2025-04-14 00:00:00">2025-04-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E5%85%AB%E7%AB%A0/" title="第八章：生成器表达式">第八章：生成器表达式</a><time datetime="2025-04-11T16:00:00.000Z" title="发表于 2025-04-12 00:00:00">2025-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/12/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B9%9D%E7%AB%A0/" title="第九章：模块">第九章：模块</a><time datetime="2025-04-11T16:00:00.000Z" title="发表于 2025-04-12 00:00:00">2025-04-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/04/10/CMake%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA/%E7%AC%AC%E4%B8%83%E7%AB%A0/" title="第七章：构建目标和属性">第七章：构建目标和属性</a><time datetime="2025-04-09T16:00:00.000Z" title="发表于 2025-04-10 00:00:00">2025-04-10</time></div></div></div></div></div></div></main><footer id="footer" style="background: linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347);"><div id="footer-wrap"><div class="copyright">&copy;2025.03.14 - 2025 By 螃蟹</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="false"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
