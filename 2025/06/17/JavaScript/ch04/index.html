@@ -1,0 +1,789 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>04-Expressions and Operators | 螃蟹</title><meta name="author" content="螃蟹"><meta name="copyright" content="螃蟹"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1. Primary Expression Primary expressions are those that stand alone —— they do not include any simpler expressions. Primary expressions in JavaScript are constant or literal values, certain language">
+<meta property="og:type" content="article">
+<meta property="og:title" content="04-Expressions and Operators">
+<meta property="og:url" content="https://zhouyi207.github.io/2025/06/17/JavaScript/ch04/index.html">
+<meta property="og:site_name" content="螃蟹">
+<meta property="og:description" content="1. Primary Expression Primary expressions are those that stand alone —— they do not include any simpler expressions. Primary expressions in JavaScript are constant or literal values, certain language">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhouyi207.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2025-06-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-18T16:00:00.000Z">
+<meta property="article:author" content="螃蟹">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zhouyi207.github.io/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "04-Expressions and Operators",
+  "url": "https://zhouyi207.github.io/2025/06/17/JavaScript/ch04/",
+  "image": "https://zhouyi207.github.io/img/avatar.jpg",
+  "datePublished": "2025-06-16T16:00:00.000Z",
+  "dateModified": "2025-06-18T16:00:00.000Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "螃蟹",
+      "url": "https://zhouyi207.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/ico.png"><link rel="canonical" href="https://zhouyi207.github.io/2025/06/17/JavaScript/ch04/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":-1,"unescape":false,"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: 螃蟹","link":"链接: ","source":"来源: 螃蟹","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'medium_zoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '04-Expressions and Operators',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/feeling/"><i class="fa-fw fa fa-heartbeat"></i><span> 有感</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">螃蟹</span></a><a class="nav-page-title" href="/"><span class="site-name">04-Expressions and Operators</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/feeling/"><i class="fa-fw fa fa-heartbeat"></i><span> 有感</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">04-Expressions and Operators</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-16T16:00:00.000Z" title="发表于 2025-06-17 00:00:00">2025-06-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-18T16:00:00.000Z" title="更新于 2025-06-19 00:00:00">2025-06-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaScript/">JavaScript</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">11.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>72分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="1-Primary-Expression">1. Primary Expression</h2>
+<p>Primary expressions are those that stand alone —— they do not include any simpler expressions. Primary expressions in JavaScript are constant or <em>literal</em> values, certain language keywords, and variable references.</p>
+<p>Literals are constant values that are embedded directly in your program. They look like these:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.23</span>         <span class="comment">// A number literal</span></span><br><span class="line"><span class="string">&quot;hello&quot;</span>      <span class="comment">// A string literal</span></span><br><span class="line">/pattern/    <span class="comment">// A regular expression literal</span></span><br></pre></td></tr></table></figure>
+<p>Some of JavaScript’s reserved words are primary expressions</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">true</span>       <span class="comment">// Evalutes to the boolean true value</span></span><br><span class="line"><span class="literal">false</span>      <span class="comment">// Evaluates to the boolean false value</span></span><br><span class="line"><span class="literal">null</span>       <span class="comment">// Evaluates to the null value</span></span><br><span class="line"><span class="variable language_">this</span>       <span class="comment">// Evaluates to the &quot;current&quot; object</span></span><br></pre></td></tr></table></figure>
+<p>Unlike the other keywords, <code>this</code> is not a constant —— it evaluates to different values in different places in the program. The <code>this</code> keyword is used in object-oriented programming. Within the body of a method, <code>this</code> evaluates to the object on which the method was invoked</p>
+<p>Finally, the thired type of primary expression is a reference to a variable, constant, or property of the global object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i             <span class="comment">// Evaluates to the value of the variable i.</span></span><br><span class="line">sum           <span class="comment">// Evaluates to the value of the variable sum.</span></span><br><span class="line"><span class="literal">undefined</span>     <span class="comment">// The value of the &quot;undefined&quot; property of the global object</span></span><br></pre></td></tr></table></figure>
+<p>When any identifier appears by itself in a program, JavaScript assumes it is a variable or constant or property of the global object and looks up its value. If no variable with that name exists, an attempt to evaluate a nonexistent variable throws a ReferenceError instead.</p>
+<h2 id="2-Object-and-Array-Initializers">2. Object and Array Initializers</h2>
+<p>Object and array initializers are expressions whose value is a newly created object or array. These initializer expressions are sometimes called object literals and array literals. Unlike true literals, however, they are not primary expressions, because they include a number of subexpressions that specify property and element values. Array initializers have a slightly simpler syntax, and we’ll begin with those.</p>
+<p>An array initializer is a comma-separated list of expressions contained within square brackets. The value of an array initializer is a newly created array. The elements of this new array are initialized to the values of the comma-separated expressions.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[]         <span class="comment">// An empty array: no expressions inside brackets means no elements</span></span><br><span class="line">[<span class="number">1</span>+<span class="number">2</span>,<span class="number">3</span>+<span class="number">4</span>]  <span class="comment">// A 2-element array.  First element is 3, second is 7</span></span><br></pre></td></tr></table></figure>
+<p>The element expressions in an array initializer can themselves be array initializers, which means that these expressions can create nested arrays.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> matrix = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>]]</span><br></pre></td></tr></table></figure>
+<p>The element expressions in an array initializer are evaluated each time the array initializer is evaluated. This means that the value of an array initializer expression may be different each time it is evaluated.</p>
+<p>Undefined elements can be included in an arrary literal by simple omitting a value between commas. For example, the following array contains five elements, including three undefined elements.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sparseArray = [<span class="number">1</span>,,,,<span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+<p>A single trailing comma is allowed after the last expression in an array initializer and does not create an undefined element. However, any array access expression for an index after that of the last expression will necessarily evaluate to undefined.</p>
+<p>Object initializer expressions are like array initializer exprssions, but the square brackets are replaced by curly brackets, and each subexpression is prefixed with a property name and a colon:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = &#123; <span class="attr">x</span>: <span class="number">2.3</span>, <span class="attr">y</span>: -<span class="number">1.2</span> &#125;;  <span class="comment">// An object with 2 properties</span></span><br><span class="line"><span class="keyword">let</span> q = &#123;&#125;;                   <span class="comment">// An empty object with no properties</span></span><br><span class="line">q.<span class="property">x</span> = <span class="number">2.3</span>; q.<span class="property">y</span> = -<span class="number">1.2</span>;        <span class="comment">// Now q has the same properties as p</span></span><br></pre></td></tr></table></figure>
+<p>In ES6, object literals have a much more feature-rich syntax. Object literals can be nested. For example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> rectangle = &#123;</span><br><span class="line">    <span class="attr">upperLeft</span>: &#123; <span class="attr">x</span>: <span class="number">2</span>, <span class="attr">y</span>: <span class="number">2</span> &#125;,</span><br><span class="line">    <span class="attr">lowerRight</span>: &#123; <span class="attr">x</span>: <span class="number">4</span>, <span class="attr">y</span>: <span class="number">5</span> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>We’ll see object and array initializers again.</p>
+<h2 id="3-Function-Definition-Expressions">3. Function Definition Expressions</h2>
+<p>A <code>function definition expression</code> defines a JavaScript function, and the value of such an expression is the newly defined function. In a sense, a function definition expression is a “function literal” in the same way that an object initializer is an “object literal”. A function definition expression typically consists of the keyword function followed by a comma-separated list of zero or more identifiers (the parameter names) in parentheses and a block of JavaScript code(the function body) in curly braces. For example:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// This function returns the square of the value passed to it.</span></span><br><span class="line"><span class="keyword">let</span> square = <span class="keyword">function</span>(<span class="params">x</span>) &#123; <span class="keyword">return</span> x * x; &#125;;</span><br></pre></td></tr></table></figure>
+<p>A function definition expression can also include a name for the function. Functions can also be defined using a function statement rather than a function expression. And in ES6 and later, function expressions can use a compact new “arrow function” syntax.</p>
+<h2 id="4-Property-Access-Expressions">4. Property Access Expressions</h2>
+<p>A property access expression evaluates to the value of an object property or an array element. JavaScript defines two syntaxes for property access.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expression . identifier</span><br><span class="line">exprssion [expression]</span><br></pre></td></tr></table></figure>
+<p>The first style of property access is an expression followed by a period and an identifier. The expression specifies the object, and the identifier specifies the name of the desired property. The second style of property access follows the first expression(the object or array) with another expression in square brackets. This second expression specifies the name of the desired property or the index of the desired array element.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> o = &#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: &#123;<span class="attr">z</span>: <span class="number">3</span>&#125;&#125;; <span class="comment">// An example object</span></span><br><span class="line"><span class="keyword">let</span> a = [o, <span class="number">4</span>, [<span class="number">5</span>, <span class="number">6</span>]];    <span class="comment">// An example array that contains the object</span></span><br><span class="line">o.<span class="property">x</span>                        <span class="comment">// =&gt; 1: property x of expression o</span></span><br><span class="line">o.<span class="property">y</span>.<span class="property">z</span>                      <span class="comment">// =&gt; 3: property z of expression o.y</span></span><br><span class="line">o[<span class="string">&quot;x&quot;</span>]                     <span class="comment">// =&gt; 1: property x of object o</span></span><br><span class="line">a[<span class="number">1</span>]                       <span class="comment">// =&gt; 4: element at index 1 of expression a</span></span><br><span class="line">a[<span class="number">2</span>][<span class="string">&quot;1&quot;</span>]                  <span class="comment">// =&gt; 6: element at index 1 of expression a[2]</span></span><br><span class="line">a[<span class="number">0</span>].<span class="property">x</span>                     <span class="comment">// =&gt; 1: property x of expression a[0]</span></span><br></pre></td></tr></table></figure>
+<p>With either type of property access expression, the expression before the <code>.</code> or <code>[</code> is first evaluated. If the value is <code>null</code> or <code>undefined</code>, the expression throws a <code>TypeError</code>, since these are the two JavaScript values that cannot have properties. If the object expression is followed by a dot and an identifier, the value of the property named by that identifier is looked up and becomes the overall value of the expression. If the object expression is followed by another expression in square brackets, that second expression is evaluated and converted to a string. The overall value of the expression is then the value of the property named by that string. In either case, if the named property does not exist, then the value of the property access expression is <code>undefined</code>.</p>
+<p>The <code>.identifier</code> syntax is the simpler of the two property access options, but notice that it can only be used when the property you want to access has a name that is a legal identifier, and when you know the name when you write the program. If the property name includes spaces or punctuation characters, or when it is a number(for arrays), you must use the square bracket notation. Square brackets are also used when the property name is not static but is itself the result of a computation.</p>
+<h3 id="1-Conditional-Property-Access">1. Conditional Property Access</h3>
+<p>ES2020 adds two new kinds of property access expressions:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expression ?. identifier</span><br><span class="line">expression ?.[ expression ]</span><br></pre></td></tr></table></figure>
+<p>In JavaScript, the values <code>null</code> and <code>undefined</code> are the only two values that do not have properties. In a regular property access expression using <code>.</code> or <code>[]</code>, you get a <code>TypeError</code> if the expression on the left evaluates to <code>null</code> or <code>undefined</code>. You can use <code>?.</code> and <code>?[]</code> syntax to guard against errors of this type.</p>
+<p>Consider the expression <code>a?.b</code>. If <code>a</code> is <code>null</code> or <code>undefined</code>, then the expression evaluates to <code>undefined</code> without any attempt to access the property <code>b</code>. If <code>a</code> is some other value, then <code>a?.b</code> evaluates to whatever <code>a.b</code> would evaluate to(and if <code>a</code> does not have a property named <code>b</code>, then the value will again be <code>undefined</code>).</p>
+<p>This form of property access expression is sometimes called “optional chaning” because it also works for longer “chained” property access expressions like this one</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">b</span>: <span class="literal">null</span> &#125;;</span><br><span class="line">a.<span class="property">b</span>?.<span class="property">c</span>.<span class="property">d</span>   <span class="comment">// =&gt; undefined</span></span><br></pre></td></tr></table></figure>
+<p><code>a</code> is an object, so <code>a.b</code> is a valid property access expression. But the value of <code>a.b</code> is <code>null</code>, so <code>a.b.c</code> would throw a TypeError. By using <code>?.</code> instead of <code>.</code> we avoid the <code>TypeError</code>, and <code>a.b?.c</code> evaluates to <code>undefined</code>. This means that <code>(a.b?.c).d</code> will throw a TypeError, because that expression attempts to access a property of the value <code>undefined</code>. But —— and this is a very important part of “optional chaining” —— <code>a.b?.c.d</code>(without the parentheses) simply evaluates to <code>undefined</code> and does not throw an error. This is because property access with <code>?.</code> is “short-circuiting”: if the subexpression to the left of <code>?.</code> evaluates to <code>null</code> or <code>undefined</code>, then the entire expression immediately evaluates to <code>undefined</code> without any further property access attempts.</p>
+<p>Of course, if <code>a.b</code> is an object, and if that object has no property named <code>c</code>, then <code>a.b?.c.d</code> will again throw a TypeError, and we will want to use another conditional property access</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">b</span>: &#123;&#125; &#125;;</span><br><span class="line">a.<span class="property">b</span>?.<span class="property">c</span>?.<span class="property">d</span>  <span class="comment">// =&gt; undefined</span></span><br></pre></td></tr></table></figure>
+<p>Conditional property access is also possible using <code>?.[]</code> instead of <code>[]</code>. In the expression <code>a?.[b][c]</code>, if the value of <code>a</code> is <code>null</code> or <code>undefined</code>, then the entire expression immediately evaluates to <code>undefined</code>, an subexpressions <code>b</code> and <code>c</code> are never even evaluated. If either of those expressions has side effects, the side effect will not occur if <code>a</code> is not defined.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a;          <span class="comment">// Oops, we forgot to initialize this variable!</span></span><br><span class="line"><span class="keyword">let</span> index = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    a[index++]; <span class="comment">// Throws TypeError</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    index       <span class="comment">// =&gt; 1: increment occurs before TypeError is thrown</span></span><br><span class="line">&#125;</span><br><span class="line">a?.[index++]    <span class="comment">// =&gt; undefined: because a is undefined</span></span><br><span class="line">index           <span class="comment">// =&gt; 1: not incremented because ?.[] short-circuits</span></span><br><span class="line">a[index++]      <span class="comment">// !TypeError: can&#x27;t index undefined.</span></span><br></pre></td></tr></table></figure>
+<p>Conditional property access with <code>?.</code> and <code>?.[]</code> is one of the newest features of JavaScript. As of early 2020, this new syntax is supported in the current or beta versions of most major browsers.</p>
+<h2 id="5-Invocation-Expressions">5. Invocation Expressions</h2>
+<p>An <code>invocation expression</code> is JavaScript’s syntax for calling(or executing) a function or method. It starts with a function expression that identifies the function to be called. The function expression is followed by an open parenthesis, a comma-separated list of zero or more argument expressions, and a close parenthesis. Some examples:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">f</span>(<span class="number">0</span>)            <span class="comment">// f is the function expression; 0 is the argument expression.</span></span><br><span class="line"><span class="title class_">Math</span>.<span class="title function_">max</span>(x,y,z) <span class="comment">// Math.max is the function; x, y, and z are the arguments.</span></span><br><span class="line">a.<span class="title function_">sort</span>()        <span class="comment">// a.sort is the function; there are no arguments.</span></span><br></pre></td></tr></table></figure>
+<p>When an invocation expression is evaluated, the function expression is evaluated first, and then the argument expressions are evaluated to produce a list of argument values. If the value of the function expression is not a function, a TypeError is thrown. Next, the argument values are assigned, in order, to the parameter names specified when the function was defined, and then the body of the function is executed. If the function uses a <code>return</code> statement to return a value, then that value becomes the value of the invocation expression. Otherwise, the value of the invocation expression is <code>undefined</code>.</p>
+<p>Every invocation expression includes a pair of parentheses and an expression before the open parenthesis. If that expression is a property access expression, then the invocation is known as a <code>method invocation</code>. In method invocations, the object or array that is the subject of the property access becomes the value of the <code>this</code> keyword while the body of the function is being executed. This enables an object-oriented programming paradigm in which functions(which we call “methods” when used this way) operate on the object of which they are part.</p>
+<h3 id="1-Conditional-Invocation">1. Conditional Invocation</h3>
+<p>In ES2020, you can also invoke a function using <code>?.()</code> instead of <code>()</code>. Normally when you invoke a function, if the expression to the left of the parentheses is <code>null</code> or <code>undefined</code> or any other non-function, a <code>TypeError</code> is thrown. With the new <code>?.()</code> invocation syntax, if the expression to the left of the <code>?.</code> evaluates to <code>null</code> or <code>undefined</code>, then the entire invocation expression evaluates to <code>undefined</code> and no exception is thrown.</p>
+<p>Array objects have a <code>sort()</code> method that can optionally be passed a function argument that defines the desired sorting order for the array elements. Before ES2020, if you wanted to write a method like <code>sort()</code> that takes an optional function argument, you would typically use an <code>if</code> statement to check that the function argument was defined before invoking it in the body of the <code>if</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">square</span>(<span class="params">x, log</span>) &#123; <span class="comment">// The second argument is an optional function</span></span><br><span class="line">    <span class="keyword">if</span> (log) &#123;            <span class="comment">// If the optional function is passed</span></span><br><span class="line">        <span class="title function_">log</span>(x);           <span class="comment">// Invoke it</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x * x;         <span class="comment">// Return the square of the argument</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>With this conditional invocation syntax of ES2020, however, you can simply write the function invocation using <code>?.()</code>, knowing that invocation will only happen if there is actually a value to be invoked:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">square</span>(<span class="params">x, log</span>) &#123; <span class="comment">// The second argument is an optional function</span></span><br><span class="line">    log?.(x);             <span class="comment">// Call the function if there is one</span></span><br><span class="line">    <span class="keyword">return</span> x * x;         <span class="comment">// Return the square of the argument</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Note, however, that <code>?.()</code> only checks whether the lefthand side is <code>null</code> or <code>undefined</code>. It does not verify that the value is actually a function. So the <code>square()</code> function in this example would still throw an exception if you passed two numbers to it, for example.</p>
+<p>Like conditional property access expressions, function invocation with <code>?.()</code> is short-circuiting: if the value to the left of <code>?.</code> is <code>null</code> or <code>undefined</code>, then none of the argument expressions within the parentheses are evaluated.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> f = <span class="literal">null</span>, x = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="title function_">f</span>(x++); <span class="comment">// Throws TypeError because f is null</span></span><br><span class="line">&#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    x       <span class="comment">// =&gt; 1: x gets incremented before the exception is thrown</span></span><br><span class="line">&#125;</span><br><span class="line">f?.(x++)    <span class="comment">// =&gt; undefined: f is null, but no exception thrown</span></span><br><span class="line">x           <span class="comment">// =&gt; 1: increment is skipped because of short-circuiting</span></span><br></pre></td></tr></table></figure>
+<p>Conditional invocation expressions with <code>?.()</code> work just as well for methods as they do for functions. But because method invocation also involves property access, it is worth taking a moment to be sure you understand the differences between the following expressions.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">o.<span class="title function_">m</span>()     <span class="comment">// Regular property access, regular invocation</span></span><br><span class="line">o?.<span class="title function_">m</span>()    <span class="comment">// Conditional property access, regular invocation</span></span><br><span class="line">o.<span class="property">m</span>?.()   <span class="comment">// Regular property access, conditional invocation</span></span><br></pre></td></tr></table></figure>
+<p>In the first expression, <code>o</code> must be an object with a property <code>m</code> and the value of that property must be a function. In the second expression, if <code>o</code> is <code>null</code> or <code>undefined</code>, then the expression evaluates to <code>undefined</code>. But if <code>o</code> has any other value, then it must have a property <code>m</code> whose value is a function. And in the third expression, <code>o</code> must not be <code>null</code> or <code>undefined</code>. If it does not have a property <code>m</code>, or if the value of that property is <code>null</code>, then the entire expression evaluates to <code>undefined</code>.</p>
+<h2 id="6-Object-Creation-Expressions">6. Object Creation Expressions</h2>
+<p>An <code>object creation expression</code> create a new object and invokes a function(called a constructor) to initialize the properties of that object. Object creation expressions are like invocation expressions except that they are prefixed with the keyword <code>new</code>:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Object</span>()</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Point</span>(<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>If no arguments are passed to the constructor function in an object creation expression, the empty pair of parentheses can be omitted.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Object</span></span><br><span class="line"><span class="keyword">new</span> <span class="title class_">Date</span></span><br></pre></td></tr></table></figure>
+<p>The value of an object creation expression is the newly created object.</p>
+<h2 id="7-Operator-Overview">7. Operator Overview</h2>
+<p>Operators are used for JavaScript’s arithmetic expressions, comparison expressions, logical expressions, assignment expressions, and more. The following table summarizes the operators and serves as a convenient reference.</p>
+<p>Note that most operators are represented by punctuation characters such as <code>+</code> and <code>=</code>. Some, however, are represented by keywords such as <code>delete</code> and <code>instanceof</code>. Keyword operators are regular operators, just like those expressed with punctuation; they simple have a less succinct syntax.</p>
+<p>The following table is organized by operator precedence. The operators listed first have higher precedence than those listed last. Operators separated by a horizontal line have different precedence levels. The column labeled A gives the operator associativity, which can be L(left-to-right) or R(right-to-left), and the column N specifies the number of operands. The column labeled Types lists the expected types of the operands and(after the → symbol) the result type for the operator. The subsections that follow the table explain the concepts of precedence, associativity, and operand type. The operators themselves are individually documented following that discussion.</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Operation</th>
+<th>A</th>
+<th>N</th>
+<th>Types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>++</code></td>
+<td>前置/后置递增</td>
+<td>R（右结合）</td>
+<td>1</td>
+<td>lval→num</td>
+</tr>
+<tr>
+<td><code>--</code></td>
+<td>前置/后置递减</td>
+<td>R</td>
+<td>1</td>
+<td>lval→num</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>数值取反</td>
+<td>R</td>
+<td>1</td>
+<td>num→num</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>转换为数值</td>
+<td>R</td>
+<td>1</td>
+<td>any→num</td>
+</tr>
+<tr>
+<td><code>~</code></td>
+<td>按位取反</td>
+<td>R</td>
+<td>1</td>
+<td>int→int</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>布尔值取反</td>
+<td>R</td>
+<td>1</td>
+<td>bool→bool</td>
+</tr>
+<tr>
+<td><code>delete</code></td>
+<td>删除属性</td>
+<td>R</td>
+<td>1</td>
+<td>lval→bool</td>
+</tr>
+<tr>
+<td><code>typeof</code></td>
+<td>确定操作数类型</td>
+<td>R</td>
+<td>1</td>
+<td>any→str</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td>返回 undefined 值</td>
+<td>R</td>
+<td>1</td>
+<td>any→undef</td>
+</tr>
+<tr>
+<td><code>**</code></td>
+<td>指数运算</td>
+<td>R</td>
+<td>2</td>
+<td>num,num→num</td>
+</tr>
+<tr>
+<td><code>*, /, %</code></td>
+<td>乘法、除法、取余</td>
+<td>L（左结合）</td>
+<td>2</td>
+<td>num,num→num</td>
+</tr>
+<tr>
+<td><code>+, -</code></td>
+<td>加法、减法（数值）</td>
+<td>L</td>
+<td>2</td>
+<td>num,num→num</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>字符串拼接</td>
+<td>L</td>
+<td>2</td>
+<td>str,str→str</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code></td>
+<td>左位移</td>
+<td>L</td>
+<td>2</td>
+<td>int,int→int</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>带符号右位移</td>
+<td>L</td>
+<td>2</td>
+<td>int,int→int</td>
+</tr>
+<tr>
+<td><code>&gt;&gt;&gt;</code></td>
+<td>无符号右位移（零扩展）</td>
+<td>L</td>
+<td>2</td>
+<td>int,int→int</td>
+</tr>
+<tr>
+<td><code>&lt;, &lt;=, &gt;, &gt;=</code></td>
+<td>数值顺序比较</td>
+<td>L</td>
+<td>2</td>
+<td>num,num→bool</td>
+</tr>
+<tr>
+<td><code>&lt;, &lt;=, &gt;, &gt;=</code></td>
+<td>字母顺序比较（字符串）</td>
+<td>L</td>
+<td>2</td>
+<td>str,str→bool</td>
+</tr>
+<tr>
+<td><code>instanceof</code></td>
+<td>测试对象类型</td>
+<td>L</td>
+<td>2</td>
+<td>obj,func→bool</td>
+</tr>
+<tr>
+<td><code>in</code></td>
+<td>测试属性是否存在</td>
+<td>L</td>
+<td>2</td>
+<td>any,obj→bool</td>
+</tr>
+<tr>
+<td><code>==</code></td>
+<td>非严格相等判断</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→bool</td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>非严格不等判断</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→bool</td>
+</tr>
+<tr>
+<td><code>===</code></td>
+<td>严格相等判断</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→bool</td>
+</tr>
+<tr>
+<td><code>!==</code></td>
+<td>严格不等判断</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→bool</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>按位与</td>
+<td>L</td>
+<td>2</td>
+<td>int,int→int</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>按位异或</td>
+<td>L</td>
+<td>2</td>
+<td>int,int→int</td>
+</tr>
+<tr>
+<td>`</td>
+<td>`</td>
+<td>按位或</td>
+<td>L</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>逻辑与</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→any</td>
+</tr>
+<tr>
+<td>`</td>
+<td></td>
+<td>`</td>
+<td>逻辑或</td>
+<td>L</td>
+</tr>
+<tr>
+<td><code>??</code></td>
+<td>选择首个已定义的操作数</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→any</td>
+</tr>
+<tr>
+<td><code>?:</code></td>
+<td>三目条件运算符（布尔值判断）</td>
+<td>R</td>
+<td>3</td>
+<td>bool,any,any→any</td>
+</tr>
+<tr>
+<td><code>=</code></td>
+<td>变量/属性赋值</td>
+<td>R</td>
+<td>2</td>
+<td>lval,any→any</td>
+</tr>
+<tr>
+<td>`**=, *=, /=, %=, +=, -=, &amp;=, ^=,</td>
+<td>=, &lt;&lt;=, &gt;&gt;=, &gt;&gt;&gt;=`</td>
+<td>复合赋值运算符</td>
+<td>R</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>丢弃首个操作数，返回第二个</td>
+<td>L</td>
+<td>2</td>
+<td>any,any→any</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-Number-of-Operands">1. Number of Operands</h3>
+<p>Operators can be categorized based on the number of operands they expect(their arity). Most JavaScript operators, like the <code>*</code> multiplication operator, are <code>binary operators</code> that combine two expressions into a single, more comple expression. That is, they expect two operands. JavaScript also supports a number of <code>unary operators</code>, which convert a single expression into a single, more complex expression. The <code>-</code> operator in the expression <code>-x</code> is a unary operator that performs the operation of negation on the operand <code>x</code>. Finally, JavaScript supports one <code>ternary operator</code>, the conditional operator <code>?:</code>, which combines three expressions into a single expression.</p>
+<h3 id="2-Operand-and-Result-Type">2. Operand and Result Type</h3>
+<p>Some operators work on values of any type, but most expect their operands to be of a specific type, and most operators return (or evaluate to) a value of a specific type. The Types column in table specifies operand types(before the arrow) and result type(after the arrow) for the operators.</p>
+<p>JavaScript operators usually convert the type of their operands as needed. The multiplication operator * expects numeric operands, but the expression “3” * “5” is legal because JavaScript can convert the operands to numbers. The value of this expression is the number 15, not the string “15”, of course. Remember also that every JavaScript value is either “truthy” or “falsy”, so operators that expect boolean operands will work with an operand of any type.</p>
+<p>Some operators behave differently depending on the type of the operands used with them. Most notably, the + operator adds numeric operands but concatenates string operands. Similarly, the comparison operators such as <code>&lt;</code> perform comparison in numerical or alphabetical order depending on the type of the operands. The descriptions of individual operators explain their type-dependencies and specify what type conversions they perform.</p>
+<p>Notice that the assignment operaotrs and a few of the other operators listed in table expect an operand of type <code>lval.</code> <em>lvalue</em> is a historical term that means “an expression that can legally appear on the left side of an assignment expression”. In JavaScript, variables, properties of objects, and elements of arrays are lvalues.</p>
+<h3 id="3-Operator-Side-Effects">3. Operator Side Effects</h3>
+<p>Evaluating a simple expression like <code>2*3</code> never affects the state of your program, and any future computation your program performs will be unaffected by that evaluation. Some expressions, however, have <code>side effects</code>, and their evaluation may affect the result of future evaluations. The assignment operators are the most obvious example: if you assign a value to a variable or property, that changes the value of any expression that uses that variable or property. The <code>++</code> and <code>--</code> increment and decrement operators are similar, since they perform an implicit assignment. The <code>delete</code> operator also has side effects: deleting a property is like(but not the same as) assigning undefined to the property.</p>
+<p>No other JavaScript operators have side effects, but function invocation and object creation expressions will have side effects if any of the operators used in the function or constructor body have side effects.</p>
+<h3 id="4-Operator-Precedence">4. Operator Precedence</h3>
+<p>The operators listed in preceding table are arranged in order from high precedence to low precedence, with horizontal lines separating groups of operators at the same precedence level. Operator precedence controls the order in which operations are performed. Operators with higher precedence(nearer the top of the table) are performed before those with lower precedence(nearer to the bottom).</p>
+<p>In practice, if you are at all unsure about the precedence of your operators, the simplest thing to do is to use parentheses to make the evaluation order explicit. The rules that are important  to know are these: multiplication and division are performed before addition and subtraction,  and assignment has very low precedence and is almost always performed last.</p>
+<p>When new operators are added to JavaScript, they do not always fit naturally into this precedence scheme. The <code>??</code> operator is shown in the table as lower-precedence than <code>||</code> and <code>&amp;&amp;</code>, but in fact <code>??</code> has relative precedence to those operators is not defined, and ES2020 requires you to explicitly use parentheses if you mix <code>??</code> with either <code>||</code> or <code>&amp;&amp;</code>. Similarly, the new <code>**</code> exponentiation operator does not have a welldefined precedence ralative to the unary negation operator, and you must use parentheses when combining negation with exponentiation.</p>
+<h3 id="5-Operator-Associativity">5. Operator Associativity</h3>
+<p>In the preceding table, the column labeled A specifies the associativity of the operator. A value of L specifies left-to-right associativity, and a value of R specifies right-to-left associativity. The associativity of an operator specifies the order in which operations of the same precedence are performed. Left-to-right associativity means that operations are performed  from left to right. For example, the subtraction operator has left-to-right associativity.</p>
+<h3 id="6-Order-of-Evaluation">6. Order of Evaluation</h3>
+<p>Operator precedence and associativity specify the order in which operations are performed in a complex expression, but they do not specify the order in which the subexpressions are evaluated. JavaScript always evaluates expressions in strictly left-to-right order, In the expression <code>w = x+ y * z</code>, for example, the subexpression <code>w</code> is evaluated first, followed by <code>x</code>, <code>y</code>, and <code>z</code>. Then the values of <code>y</code> and <code>z</code> are multiplied, added to the value of <code>x</code>, and assigned to the variable or property specified by expression <code>w</code>. Adding parentheses to the expression can change the relative order of the multiplication, additions, and assignment, but not the left-to-right order of evaluation.</p>
+<p>Order of evaluation only makes a difference if any of the expressions being evaluated has side effects that affect the value of another expression. If expression <code>x</code> increments a variable that is used by expression <code>z</code>, then the fact that <code>x</code> is evaluated before <code>z</code> is important.</p>
+<h2 id="8-Arithmetic-Expressions">8. Arithmetic Expressions</h2>
+<p>This section covers the operators that perform arithmetic or other numerical manipulations on their operands. The exponentiation, multiplication, division, and subtraction operators are straightforward and are covered first. The addition operator gets a subsection of its own because it can also perform string concatenation and has some unusual type conversion rules. The unary operators and the bitwise operators are also covered in subsections of their own.</p>
+<p>Most of these arithmetic operators(except as noted as follows) can be used with BigInt operands or with regular numbers, as long as you don’t mix two types.</p>
+<p>The basic arithmetic operators are <code>**</code>(exponentiation), <code>*</code>(multiplication), <code>/</code>(division), <code>%</code>(modulo: remainder after division), <code>+</code>(addition), and <code>-</code>(subtraction). As noted, we’ll discuss the <code>+</code> operator in a section of its own. The other five basic operators simply evaluate their operands, convert the values to numbers if necessary, and then compute the power, product, quotient, remainder, or difference. Non-numeric operands that cannot convert to numbers convert to the <code>NaN</code> value. If either operand is (or converts to) <code>NaN</code>, the result of the operation is (almost always) NaN.</p>
+<h3 id="1-The-Operator">1. The + Operator</h3>
+<p>The binary + operator adds numeric operands or concatenates string operands.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> + <span class="number">2</span>                        <span class="comment">// =&gt; 3</span></span><br><span class="line"><span class="string">&quot;hello&quot;</span> + <span class="string">&quot; &quot;</span> + <span class="string">&quot;there&quot;</span>      <span class="comment">// =&gt; &quot;hello there&quot;</span></span><br><span class="line"><span class="string">&quot;1&quot;</span> + <span class="string">&quot;2&quot;</span>                    <span class="comment">// =&gt; &quot;12&quot;</span></span><br></pre></td></tr></table></figure>
+<p>Technically, the <code>+</code> operator behaves like this:</p>
+<ul>
+<li>If either of its operand values is an object, it converts it to a primitive using the object-to-primitive algorithm. Date objects are converted by their <code>toString()</code> method, and all other objects are converted via <code>valueOf()</code>, if that method returns a primitive value. However, most objects do not have a useful <code>valueOf()</code> method, so they are converted via <code>toString()</code> as well.</li>
+<li>After object-to-primitive conversion, if either operand is a string, the other is converted to a string and concatenation is performed.</li>
+<li>Otherwise, both operands are converted to numbers(or to NaN) and addition is performed.</li>
+</ul>
+<p>Here are some examples:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> + <span class="number">2</span>         <span class="comment">// =&gt; 3: addition</span></span><br><span class="line"><span class="string">&quot;1&quot;</span> + <span class="string">&quot;2&quot;</span>     <span class="comment">// =&gt; &quot;12&quot;: concatenation</span></span><br><span class="line"><span class="string">&quot;1&quot;</span> + <span class="number">2</span>       <span class="comment">// =&gt; &quot;12&quot;: concatenation after number-to-string</span></span><br><span class="line"><span class="number">1</span> + &#123;&#125;        <span class="comment">// =&gt; &quot;1[object Object]&quot;: concatenation after object-to-string</span></span><br><span class="line"><span class="literal">true</span> + <span class="literal">true</span>   <span class="comment">// =&gt; 2: addition after boolean-to-number</span></span><br><span class="line"><span class="number">2</span> + <span class="literal">null</span>      <span class="comment">// =&gt; 2: addition after null converts to 0</span></span><br><span class="line"><span class="number">2</span> + <span class="literal">undefined</span> <span class="comment">// =&gt; NaN: addition after undefined converts to NaN</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>Number(undefined) = NaN</code>, <code>Number(null) = 0</code></p>
+</blockquote>
+<p>Finally, it is important to note that when the <code>+</code> operator is used with strings and numbers, it may not be associative. That is, the result may depend on the order in which operations are performed.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> + <span class="number">2</span> + <span class="string">&quot; blind mice&quot;</span>    <span class="comment">// =&gt; &quot;3 blind mice&quot;</span></span><br><span class="line"><span class="number">1</span> + (<span class="number">2</span> + <span class="string">&quot; blind mice&quot;</span>)  <span class="comment">// =&gt; &quot;12 blind mice&quot;</span></span><br></pre></td></tr></table></figure>
+<p>The first line has no parentheses, and the <code>+</code> operator has left-to-right associativity, so the two numbers are added first, and their sum is concatenated with the string. In the second line, parentheses alter this order of operations: the number 2 is concatenated with the string to produce a new string. Then the number 1 is concatenated with the new string to produce the final result.<br>
+s</p>
+<h3 id="2-Unary-Arithmetic-Operators">2. Unary Arithmetic Operators</h3>
+<p>Unary operators modify the value of a single operand to produce a new value. In JavaScript, the unary operators all have high precedence and are all right-associative. The arithmetic unary operators described in this section(<code>+</code>, <code>-</code>, <code>++</code>, and <code>--</code>) all convert their single operand to a number, if necessary. Note that the punctuation characters <code>+</code> and <code>-</code> are used as both unary and binary operators.</p>
+<p>The unary arithmetic operators are the following:</p>
+<p><strong>Unary plus(+)</strong></p>
+<p>The unary plus operator converts its operand to a number(or to NaN) and returns that converted value. When used with an operand that is already a number, it doesn’t do anything. This operator may not be used with BigInt values, since they cannot be converted to regular numbers.</p>
+<p><strong>Unary minus(-)</strong></p>
+<p>When <code>-</code> is used as a unary operator, it converts its operand to a number, if necessary, and then changes the sign of the result.</p>
+<p><strong>Increment(++)</strong></p>
+<p>The <code>++</code> operator increments its single operand, which must be an lvalue(a variable, an element of an array, or a property of an object). The return value of the <code>++</code> operator depends on its position relative to the operand. When used before the operand, where it is known as the pre-increment operator, it increments the operand and evaluates to the incremented value of that operand. When used after the operand, where it is know as the post-increment operator, it increments its operand but evaluates to the <code>unincremented</code> value of that operand. Consider the difference between these two lines of code:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> i = <span class="number">1</span>, j = ++i;    <span class="comment">// i and j are both 2</span></span><br><span class="line"><span class="keyword">let</span> n = <span class="number">1</span>, m = n++;    <span class="comment">// n is 2, m is 1</span></span><br></pre></td></tr></table></figure>
+<p>Note that the expression <code>x++</code> is not always the same as <code>x=x+1</code>. The <code>++</code> operator never performs string concatenation: it always converts its operand to a number and increments it. If <code>x</code> is the string “1”, <code>++x</code> is the number 2, but <code>x+1</code> is the string “11”.</p>
+<p>Also note that, because of JavaScript’s automatic semicolon insertion, you cannot insert a line break between the post-increment operator and the operand that precedes it. If you do so, JavaScript will treat the operand as a complete statement by itself and insert a semicolon before it.</p>
+<p>This operator, in both its pre- and post-increment forms, is most commonly used to increment a counter that controls a <code>for</code> loop.</p>
+<p><strong>Decrement(–)</strong></p>
+<p>The <code>--</code> operator expects an lvalue operand. It converts the value of the operand to a number, subtracts 1, and assigns the decremented value back to the operand. Like the <code>++</code> operator, the return value of <code>--</code> depends on its position relative to the operand. When used before the operand, it decrements and returns the decremented value. When used after the operand, it decrements the operand but returns the <code>undecremented</code> value. When used after its operand, no line break is allowed between the operand and the operator.</p>
+<h3 id="3-Bitwise-Operators">3. Bitwise Operators</h3>
+<p>The bitwise operators perform low-level manipulation of the bits in the binary representation of numbers. Although they do not perform traditional arithmetic operations, they are categorized as arithmetic operators here because they operate on numeric operands and return a numeric value. Four of these operators perform Boolean algebra on the individual bits of the operands, behaving as if each bit in each operand were a boolean value(1=true, 0=false). The other three bitwise operators are used to shift bits left and right. These operators are not commonly used in JavaScript programming, and if you are not familiar with the binary representation of integers, including the two’s complement representation of negative integers, you can probably skip this section.</p>
+<p>The bitwise operators expect integer operands and behave as if those values were represented as 32-bit integers rather than 64-bit floating-point values. These operators convert their operands to numbers, if necessary, and then coerce the numeric values to 32-bit integers by dropping any fractional part and any bits beyongd the 32nd. The shift operators require a right-side operand between 0 and 31. After converting this operand to an unsigned 32-bit integer, they drop any bits beyond the 5th, which yields a number in the appropriate range. Surprisingly, <code>NaN</code>, <code>Infinity</code>, and <code>-Infinity</code> all convert to 0 when used as operands of there bitwise operators.</p>
+<p>All of these bitwise operators except <code>&gt;&gt;&gt;</code> can be used with regular number operands or with BigInt operands.</p>
+<p><strong>Bitwise AND(&amp;)</strong></p>
+<p>The <code>&amp;</code> operator performs a Boolean AND operation on each bit of its integer arguments. A bit is set in the result only if the corresponding bit is set in both operands. For example, <code>0x1234 &amp; 0x00FF</code> evaluates to <code>0x0034</code>.</p>
+<p><strong>Bitwise OR(|)</strong></p>
+<p>The <code>|</code> operator performs a Boolean OR operation on each bit of its integer arguments. A bit is set in the result if the corresponding bit is set in one or both of the operands. For example, <code>0x1234 | 0x00FF</code> evaluates to <code>0x12FF</code>.</p>
+<p><strong>Bitwise XOR(^)</strong></p>
+<p>The <code>^</code> operator performs a Boolean exclusive OR operation on each bit of its integer arguments. Exclusive OR means that either operand one is <code>true</code> or operand two is <code>true</code>, but not both. A bit is set in this operation’s result if a corresponding bit is set in one(but not both) of the two operands. For example, <code>0xFF00 ^ 0xF0F0</code> evalues to <code>0x0FF0</code>.</p>
+<p><strong>Bitwise NOT(~)</strong></p>
+<p>The <code>~</code> operator is a unary operator that appears before its single integer operand. It operators by reversing all bits in the operand. Because of the way signed integers are represented in JavaScript, applying the <code>~</code> operator to a value is equivalent to changing its sign and subtracting 1. For example, <code>~0x0F</code> evaluates to <code>0xFFFFFFF0</code>, or <code>-16</code>.</p>
+<p><strong>Shift left(&lt;&lt;)</strong></p>
+<p>The <code>&lt;&lt;</code> operator moves all bits in its first operand to the left by the number of places specified in the second operand, which should be an integer between 0 and 31. For example, in the operation <code>a &lt;&lt; 1</code>, the first bit(the ones bit) of a becomes the second bit(the twos bit), the second bit of a becomes the third, etc. A zero is used for the new first bit, and the value of the 32nd bit is lost. Shifting a value left by one position is equivalent to multiplying by 2, shifting two positions is equivalent to multiplying by 4, and so on. For example, 7 &lt;&lt; 2 evaluates to 28.</p>
+<p><strong>Shift right with sign(&gt;&gt;)</strong></p>
+<p>The <code>&gt;&gt;</code> operator moves all bits in its first operand to the right by the number of places specified in the second operand(an integer between 0 and 31). Bits that are shifted off the right are lost. The bits filled in on the left depend on the sign bit the original operand, in order to preserve the sign of the result. If the first operand is positive, the result has zeros placed in the high bits; if the first operand is negative, the result has ones placed in the high bits. Shifting a positive value right one place is equivalent to dividing by 2(discarding the remainder), shifting right two places is equivalent to integer division by 4, and so on. 7 &gt;&gt; 1 evaluates to 3, for example, but note that and -7 &gt;&gt; 1 evaluates to -4.</p>
+<p><strong>Shift right with zero fill(&gt;&gt;&gt;)</strong></p>
+<p>The <code>&gt;&gt;&gt;</code> operator is just like the <code>&gt;&gt;</code> operator, except that the bits shifted in on the left are always zero, regardless of the sign of the first operand. This is useful when you want to treat signed 32-bit values as if they are unsigned integers. -1 &gt;&gt; 4 evaluates to -1, but -1 &gt;&gt;&gt; 4 evaluates to <code>0x0FFFFFFF</code>, fro example. This is the only one of the JavaScript bitwise operators that cannot be used with BigInt values. BigInt does not represent negative numbers by setting the high bit the way that 32-bit integers do, and this operator only makes sense for that particular two’s complement representation.</p>
+<h2 id="9-Relational-Expressions">9. Relational Expressions</h2>
+<p>These operators test for a relationship(such as “equals”, “less than”, or “property of”) between two values and return <code>true</code> or <code>false</code> depending on whether that relationship exists. Relational expressions always evaluate to a boolean value, and that value is often used to control the flow of program execution in <code>if</code>, <code>while</code>, and <code>for</code> statements. The subsections that follow document the equality and inequality operators, the comparison operators, and JavaScript’s other two relational operators, <code>in</code> and <code>instanceof</code>.</p>
+<h3 id="1-Equality-and-Inequality-Operators">1. Equality and Inequality Operators</h3>
+<p>The <code>==</code> and <code>===</code> operators check whether two values are the same, using two different definitions of sameness. Both operators accept operands of any type, and both return <code>true</code> if their operands are the same and false if they are different. The <code>===</code> operator is known as the strict equality operator(or sometimes the identity operator), and it checks whether its two operands are “identical” using a strict definition of sameness. The <code>==</code> operator is known as the equality operator; it checks whether its two operands are “equal” using a more relaxed definition of sameness that allows type conversions.</p>
+<p><strong>Strict equality</strong></p>
+<p>The strict equality operator <code>===</code> evaluates its operands, then compares the two values as follows, performing no type conversion:</p>
+<ul>
+<li>If the two values have different types, they are not equal</li>
+<li>If both values are <code>null</code> or <code>both</code> values are <code>undefined</code>, they are equal</li>
+<li>If both values are the boolean values <code>true</code> or both are the boolean value <code>false</code>, they are equal</li>
+<li>If one or both values is <code>NaN</code>, they are not equal.(This is surprising, but the NaN value is never equal to any other value, including itself! To check whether a value <code>x</code> is <code>NaN</code>, use <code>x !== x</code>, or the global <code>isNaN()</code> function.)</li>
+<li>If both values are numbers and have the same value, they are equal. If one value is 0 and the other is -0, they are also equal</li>
+<li>If both values are strings and contain exactly the same 16-bit values in the same positions, they are equal. If the strings differ in length or content, they are not equal. Two strings may have the same meaning and the same visual appearance, but still be encoded using different sequences of 16-bit values. JavaScript performs no Unicode normalization, and a pair of strings like this is not considered equal to the <code>===</code> or <code>==</code> operators.</li>
+<li>If both values refer to the same object, array, or function, they are equal. If they refer to different objects, they are not equal, even if both objects have identical properties.</li>
+</ul>
+<p><strong>Equality with type conversion</strong></p>
+<p>The equality operator <code>==</code> is like the strict equality operator, but it is less strict. If the values of the two operands are not the same type, it attempts some type conversions and tries the comparison again.</p>
+<ul>
+<li>If the two values have the same type, test them for strict equality as described previously. If they are strictly equal, they are equal. If they are not strictly equal, they are not equal.</li>
+<li>If the two values do not have the same type, the <code>==</code> operator may still consider them equal. It uses the following rules and type conversions to check for equality:
+<ul>
+<li>If one value is <code>null</code> and the other is a string, convert the string to a number and try the comparison again, using the converted value.</li>
+<li>If one value is a number and the other is a string, convert the string to a number and try the comparison again, using the converted value.</li>
+<li>If either value is <code>true</code>, convert it to 1 and try the comparison again. If either value is <code>false</code>, convert it to 0 and try the comparison again.</li>
+<li>If one value is an object and the other is a number or string, convert the object to a primitive using the algorithm and try the comparison again. An object is converted to a primitive value by either its <code>toString()</code> method or its <code>valueOf()</code> method. The built-in classes of core JavaScript attempt <code>valueOf()</code> conversion before <code>toString()</code> conversion, except for the Date class, which performs <code>toString()</code> conversion.</li>
+<li>Any other combinations of values are not equal.</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Comparison-Operators">2. Comparison Operators</h3>
+<p>The comparison operators test the relative order(numerical or alphabetical) of their two operands:</p>
+<p><strong>Less than(&lt;)</strong></p>
+<p>The <code>&lt;</code> operator evaluates to <code>true</code> if its first operand is less than its second operand; otherwise, it evaluates to <code>false</code>.</p>
+<p><strong>Greater than(&gt;)</strong></p>
+<p>The <code>&gt;</code> operator evaluates to <code>true</code> if its first operand is greater than its second operand; otherwise, it evaluates to <code>false</code>.</p>
+<p><strong>Less than or equal(&lt;=)</strong></p>
+<p>The <code>&lt;=</code> operator evaluates to <code>true</code> if its first operand is less than or equal to its second operand; otherwise, it evaluates to <code>false</code>.</p>
+<p><strong>Greater than or equal(&gt;=)</strong></p>
+<p>The <code>&gt;=</code> operator evaluates to <code>true</code> if its first operand is greater than or equal to its second operand; otherwise, it evaluates to <code>false</code>.</p>
+<p>The operands of these comparison operators may be of any type. Comparison can be performed only on numbers and strings, however, so operands that are not numbers or strings are converted.</p>
+<p>Comparison and conversion occur as follows:</p>
+<ul>
+<li>If either operand evaluates to an object, that object is converted to a primitive value; if its <code>valueOf()</code> method returns a primitive value, that value is used. Otherwise, the return value of its <code>toString()</code> mtehod is used.</li>
+<li>If, after any required object-to-primitive conversion, both operands are strings, the two strings are compared, using alphabetical order, where “alphabetical order” is defined by the numerical orders of the 16-bit Unicode values that make up the strings.</li>
+<li>If, after object-to-primitive conversion, at least one operand is not a string, both operands are converted to numbers and compared numerically. <code>0</code> and <code>-0</code> are considered equal. Infinity is larger than any number other than itself, and <code>-Infinity</code> is smaller than any number other than itself. If either operand is (or converts to) <code>NaN</code>, then the comparison operator always returns <code>false</code>. Although the arithmetic operators do not allow BigInt values to be mixed with regular numbers, the comparison operators do allow comparisons between numbers and BigInts.</li>
+</ul>
+<p>Remember that JavaScript strings are sequences of 16-bit integer values, and that string comparison is just a numerical comparison of the values in the two strings. The numerical encoding order defined by Unicode may not match the traditional collation order used in any particular language or locale. Note in particular that string comparison is case-sensitive, and all capital ASCII letters are “less than” all lowercase ASCII letters. This rule can cause confusing results if you do not expect it. For example, according to the <code>&lt;</code> operator, the string “Zoo” comes before the string “aardvark”.</p>
+<p>Finally, note that the <code>&lt;=</code> and <code>&gt;=</code> operators do not rely on the equality or strict equality operators for determining whether two values are “equal”. Instead, the less-than-or-equal operator is simply defined as “not greater than”, and the greater-than-or-equal operator is defined as “not less than”. The one exception occurs when either operand is(or converts to) NaN, in which case, all four comparison operators return <code>false</code>.</p>
+<h3 id="3-The-in-Operator">3. The in Operator</h3>
+<p>The <code>in</code> operator expects a left-side operand that is a string, symbol, or value that can be converted to a string. It expects a right-side operand that is an object. It evaluates to <code>true</code> if the left-side value is the name of a property of the right-side object.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> point = &#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">1</span>&#125;;  <span class="comment">// Define an object</span></span><br><span class="line"><span class="string">&quot;x&quot;</span> <span class="keyword">in</span> point               <span class="comment">// =&gt; true: object has property named &quot;x&quot;</span></span><br><span class="line"><span class="string">&quot;z&quot;</span> <span class="keyword">in</span> point               <span class="comment">// =&gt; false: object has no &quot;z&quot; property.</span></span><br><span class="line"><span class="string">&quot;toString&quot;</span> <span class="keyword">in</span> point        <span class="comment">// =&gt; true: object inherits toString method</span></span><br><span class="line"><span class="keyword">let</span> data = [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>];        <span class="comment">// An array with elements (indices) 0, 1, and 2</span></span><br><span class="line"><span class="string">&quot;0&quot;</span> <span class="keyword">in</span> data                <span class="comment">// =&gt; true: array has an element &quot;0&quot;</span></span><br><span class="line"><span class="number">1</span> <span class="keyword">in</span> data                  <span class="comment">// =&gt; true: numbers are converted to strings</span></span><br><span class="line"><span class="number">3</span> <span class="keyword">in</span> data                  <span class="comment">// =&gt; false: no element 3</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-The-instanceof-Operator">4. The instanceof Operator</h3>
+<p>The <code>instanceof</code> operator expects a left-side operand that is an object and a right-side operand that identifies a class of objects. The operator evaluates to <code>true</code> if the leftside object is an instance of the right-side class and evaluates to <code>false</code> otherwise.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> d = <span class="keyword">new</span> <span class="title class_">Date</span>();  <span class="comment">// Create a new object with the Date() constructor</span></span><br><span class="line">d <span class="keyword">instanceof</span> <span class="title class_">Date</span>    <span class="comment">// =&gt; true: d was created with Date()</span></span><br><span class="line">d <span class="keyword">instanceof</span> <span class="title class_">Object</span>  <span class="comment">// =&gt; true: all objects are instances of Object</span></span><br><span class="line">d <span class="keyword">instanceof</span> <span class="title class_">Number</span>  <span class="comment">// =&gt; false: d is not a Number object</span></span><br><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];   <span class="comment">// Create an array with array literal syntax</span></span><br><span class="line">a <span class="keyword">instanceof</span> <span class="title class_">Array</span>   <span class="comment">// =&gt; true: a is an array</span></span><br><span class="line">a <span class="keyword">instanceof</span> <span class="title class_">Object</span>  <span class="comment">// =&gt; true: all arrays are objects</span></span><br><span class="line">a <span class="keyword">instanceof</span> <span class="title class_">RegExp</span>  <span class="comment">// =&gt; false: arrays are not regular expressions</span></span><br></pre></td></tr></table></figure>
+<p>Note that all objects are instances of <code>Object</code>. <code>instanceof</code> considers the “superclasses” when deciding whether an object is an instance of a class. If the left-side operand of instancof is not an object, <code>instanceof</code> returns <code>false</code>. If the righthand side is not a class of objects, it throws a <code>TypeError</code>.</p>
+<p>In order to understand how the <code>instanceof</code> operator works, you must understand the “prototype chain”. This is JavaScript’s inheritance mechanism. To evaluate the expression <code>o instanceof f</code>, JavaScript evaluates <code>f.prototype</code>, and then looks for that value in the prototype chain of <code>o</code>. If it finds it, then <code>o</code> is an instance of <code>f</code>(or of a subclass of <code>f</code>) and the operator returns <code>true</code>. If <code>f.prototype</code> is not one of the values in the prototype chain of <code>o</code>, then <code>o</code> is not an instance of <code>f</code> and instanceof returns <code>false</code>.</p>
+<h2 id="10-Logical-Expressions">10. Logical Expressions</h2>
+<p>The logical operators <code>&amp;&amp;</code>, <code>||</code>, and <code>!</code> perform Boolean algebra and are often used in conjunction with the relational operators to combine two relational expressions into one more complex expression. These operators are described in the subsections that follow.</p>
+<h3 id="1-Logical-AND">1. Logical AND(&amp;&amp;)</h3>
+<p>The <code>&amp;&amp;</code> operator can be understood at three different levels. At the simplest level, when used with boolean operands, <code>&amp;&amp;</code> performs the Boolean AND operation on the two values: it returns <code>true</code> if and only if both its first operand <code>and</code> its second operand are <code>true</code>. If one or both of these operands is <code>false</code>, it returns <code>false</code>.</p>
+<p><code>&amp;&amp;</code> is often used as a conjunction to join two relational expressions:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x === <span class="number">0</span> &amp;&amp; y === <span class="number">0</span> <span class="comment">// true if, and only if, x and y are both 0</span></span><br></pre></td></tr></table></figure>
+<p>Relational expressions always evaluate to <code>true</code> or <code>false</code>, so when used like this, the <code>&amp;&amp;</code> operator itself returns <code>true</code> or <code>false</code>. Relational operators have higher precedence than <code>&amp;&amp;</code> and (<code>||</code>), so expressions like thest can safely be written without parentheses.</p>
+<p>But <code>&amp;&amp;</code> does not require that its operands be boolean values. Recall that all JavaScript values are either “truthy” or “falsy”.(The falsy values are <code>false</code>, <code>null</code>, <code>undefined</code>, <code>0</code>, <code>-0</code>, <code>NaN</code>, and “”. All other values, including all objects, are truthy.) The second level at which <code>&amp;&amp;</code> can be understood is as a Boolean AND operator for truthy and falsy values. If both operands are truthy, the operator returns a falsy value. In JavaScript, any expression or statement that expects a boolean value will work with a truethy or falsy value, so the fact that <code>&amp;&amp;</code> does not always return <code>true</code> or <code>false</code> does not cause practical problems.</p>
+<p>Notice that this description says that the operator returns “a truthy value” or “a falsy value” but does not specify what that value is. For that, we need to describe <code>&amp;&amp;</code> at the third and final level. This operator starts by evaluating its first operand, the expression on its left. If the value on the left is falsy, the value of the entire expression must also be falsy, the value of the entire expression must also be falsy, so <code>&amp;&amp;</code> simply returns the value on the left and does not even evaluate the expression on the right.</p>
+<p>On the other hand, if the value on the left is truthy, then the overall value of the expression depends on the value on the righthand side. If the value on the right is truthy, then the overall value must be truthy, and if the value on the right is falsy, then the overall value must be falsy. So when the value on the left is truthy, the <code>&amp;&amp;</code> operator evaluates and returns the value on the right.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> o = &#123;<span class="attr">x</span>: <span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> p = <span class="literal">null</span>;</span><br><span class="line">o &amp;&amp; o.<span class="property">x</span>     <span class="comment">// =&gt; 1: o is truthy, so return value of o.x</span></span><br><span class="line">p &amp;&amp; p.<span class="property">x</span>     <span class="comment">// =&gt; null: p is falsy, so return it and don&#x27;t evaluate p.x</span></span><br></pre></td></tr></table></figure>
+<p>It is important to understand that <code>&amp;&amp;</code> may or may not evaluate its right-side operand. In this code example, the variable <code>p</code> is set to <code>null</code>, and the expression <code>p.x</code> would, if evaluated, cause a <code>TypeError</code>. But the code use <code>&amp;&amp;</code> in an idiomatic way so that <code>p.x</code> is evaluated only if <code>p</code> is truthy —— not <code>null</code> or <code>undefined</code>.</p>
+<p>In general, you must be careful whenever you write an expression with side effects(assignments, increments, decrements, or function invocations) on the righthand side of <code>&amp;&amp;</code>. Whether those side effects occur depends on the value of the lefthand side.</p>
+<p>Despite the somewhat complex way that this operator actually works, it is most commonly used as a simple Boolean algebra operator that works on truthy and falsy values.</p>
+<h3 id="2-Logical-OR">2. Logical OR(||)</h3>
+<p>The <code>||</code> operator performs the Boolean OR operation on its two operands. If one or both operands is truthy, it returns a truthy value. If both operands are falsy, it returns a falsy value.</p>
+<p>Although the <code>||</code> operator is most often used simply as a Boolean OR operator, it, like the <code>&amp;&amp;</code> operator, has more complex behavior. It starts by evaluating its first operand, the expression on its left. If the value of the first operand is truthy, it short-circuits and returns that truthy value without ever evaluating the expression on the right. If, on the other hand, the value of the first operand is falsy, then <code>||</code> evaluates its second operand and returns the value of that expression.</p>
+<p>An idiomatic usage of this operator is to select the first truthy value in a set of alternatives.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If maxWidth is truthy, use that. Otherwise, look for a value in</span></span><br><span class="line"><span class="comment">// the preferences object. If that is not truthy, use a hardcoded constant.</span></span><br><span class="line"><span class="keyword">let</span> max = maxWidth || preferences.<span class="property">maxWidth</span> || <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+<p>Note that if 0 is a legal value for <code>maxWidth</code>, then this code will not work correctly, since 0 is a falsy value. See the <code>??</code> operator for an alternative.</p>
+<p>Prior to ES6, this idiom is often used in functions to supply default values for parameters</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Copy the properties of o to p, and return p</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">copy</span>(<span class="params">o, p</span>) &#123;</span><br><span class="line">    p = p || &#123;&#125;;  <span class="comment">// If no object passed for p, use a newly created object.</span></span><br><span class="line">    <span class="comment">// function body goes here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>In ES6 and later, however, this trick is no longer needed because the default parameter value could simply be written in the function definition itself: <code>function copy(o, p=&#123;&#125;) &#123;...&#125;</code></p>
+<h3 id="3-Logical-NOT">3. Logical NOT(!)</h3>
+<p>The <code>!</code> operator is a unary operator; it is placed before a single operand. Its purpose is to invert the boolean value of its operand.</p>
+<p>Unlike the <code>&amp;&amp;</code> and <code>||</code> operators, the <code>!</code> operator converts its operand to a boolean value before inverting the converted value. This means that <code>!</code> always returns <code>true</code> or <code>false</code> and that you can convert any value <code>x</code> to its equivalent boolean value by applying this operator twice: <code>!!x</code>.</p>
+<p>As a unary operator, <code>!</code> has high precedence and binds tightly. If you want to invert the value of an expression like <code>p &amp;&amp; q</code>, you need to use parentheses: <code>!(p &amp;&amp; q)</code>. It is worth noting two laws of Boolean algebra here that we can express using JavaScript syntax.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// DeMorgan&#x27;s Laws</span></span><br><span class="line">!(p &amp;&amp; q) === (!p || !q)  <span class="comment">// =&gt; true: for all values of p and q</span></span><br><span class="line">!(p || q) === (!p &amp;&amp; !q)  <span class="comment">// =&gt; true: for all values of p and q</span></span><br></pre></td></tr></table></figure>
+<h2 id="11-Assignment-Expressions">11. Assignment Expressions</h2>
+<p>JavaScript uses the <code>=</code> operator to assign a value to a variable or property. The <code>=</code> operator expects its left-side operand to be an lvalue: a variable or object property(or array element). It expects its right-side operand to be an arbitrary value of any type. The value of an assignment expression is the value of the right-side operand. As a side effect, the <code>=</code> operator assigns the value on the right to the variable or property on the left so that future references to the variable or property evaluate to the value.</p>
+<p>The assignment operator has right-to-left associativity, which means that when multiple assignment operators appear in an expression, they are evaluated from right to left. Thus, you can write code like this to assign value to multiple variables.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i = j = k = <span class="number">0</span>;       <span class="comment">// Initialize 3 variables to 0</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-Assignment-with-Operation">1. Assignment with Operation</h3>
+<p>Besides the normal <code>=</code> assignment operator, JavaScript supports a number of other assignment operators that provide shortcuts by combining assignment with some other operation. For example, the <code>+=</code> operator performs addition and assignment. The following exprssion.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">total += salesTax;</span><br></pre></td></tr></table></figure>
+<p>is equivalent to this one</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">total = total + salesTax;</span><br></pre></td></tr></table></figure>
+<h2 id="12-Evaluation-Expressions">12. Evaluation Expressions</h2>
+<p>Like many interpreted languages, JavaScript has the ability to interpret strings of JavaScript source code, evaluating them to produce a value. JavaScript does this with the global function <code>eval()</code>.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">&quot;3+2&quot;</span>)    <span class="comment">// =&gt; 5</span></span><br></pre></td></tr></table></figure>
+<p>Dynamic evaluation of strings of source code is a powerful language feature that is almost never necessary in practice. If you find youself using <code>eval()</code>, you should think carefully about whether you really need to use it. In particular, <code>eval()</code> can be a <code>security</code> hole, and you should never pass any string derived from user input to <code>eval()</code>. With a languages as complicated as JavaScript, there is no way to sanitize user input to make it safe to use with <code>eval()</code>. Because of these security issues, some web servers use the HTTP “Content-Security-Policy” header to disable <code>eval()</code> for an entire website.</p>
+<p>The subsections that follow explain the basic use of <code>eval()</code> and explain two restricted versions of it that have less impact on the optimizer.</p>
+<blockquote>
+<p><strong>Is eval() a Function or an Operator?</strong><br>
+<code>eval()</code> is a function, but it is included in expressions because it really should have been an operator. The earliest versions of the language defined an <code>eval()</code> function, and ever since then, language designers and interpreter wiriters have been placing restrictions on it that make it more and more operator-like. Modern JavaScript interpreters perform a lot of code analysis and optimization. Generally speaking, if a function calls <code>eval()</code>, the interpreter cannot optimize that function. The problem with defining <code>eval()</code> as a function is that is can be given other names. If this is allowed, then the interpreter can’t know for sure which functions call <code>eval()</code>, so it cannot optimize aggressively. This issue could have been avoided if <code>eval()</code> was an operator(and a reserved word).</p>
+</blockquote>
+<h3 id="1-eval">1. eval()</h3>
+<p><code>eval()</code> expects one argument. If you pass any value other than a string, it simply returns that value. If you pas a string, it attempts to parse the string as JavaScript code, throwing a SyntaxError if it fails. If it successfully parses the string, then it evaluates the code and returns the value of the last expression or statement in the string or <code>undefined</code> if the last expression or statement had no value. If the evaluated string throws an exception, that exception propogates from the call to <code>eval()</code>.</p>
+<p>The key thing about <code>eval()</code>(when invoked like this) is that it uses the variable environment of the code that calls it. That is, it looks up the values of variables and defines new variables and functions in the same way that local code does. If a function defines a local variable <code>x</code> and then calls <code>eval(&quot;x&quot;)</code>, it will obtain the value of the local variable. If it calls <code>eval(&quot;x=1&quot;)</code>, it changes the value of the local variable. And if the function calls <code>eval(&quot;var y = 3;&quot;)</code>, it declares a new local variable <code>y</code>. On the other hand, if the evaluated string uses <code>let</code> or <code>const</code>, the variable or constant declared will be local to the evaluation and will not be defined in the calling environment.</p>
+<p>Similarly, a function can declare a local function with code like this.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="string">&quot;function f() &#123; return x+1; &#125;&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>If you call <code>eval()</code> from top-level code, it operators on global variables and global functions, of course. Note that the string of code you pass to <code>eval()</code> must make syntactic sense on its own: you cannot use it to paste code fragment into a function. It makes no sense to write <code>eval(&quot;return ;&quot;)</code>, for example, because <code>return</code> is only legal within functions, and the fact that the evaluated string uses the same variable environment as the calling function does not make it part of that function. If your string would make sense as a standalone script(even a very short one like <code>x=0</code>), it is legal to pass to <code>eval()</code>. Otherwise, <code>eval()</code> will throw a SyntaxError.</p>
+<h3 id="2-Global-eval">2. Global eval()</h3>
+<p>It is the ability of <code>eval()</code> to change local variables that is so problematic to JavaScript optimizers. As a workaround, however, interpreters simply do less optimization on any function that calls <code>eval()</code>. But what should a JavaScript interpreter do, however, if a script defines an alias for <code>eval()</code> and then calls that function by another name? The JavaScript specification declares that when <code>eval()</code> is invoked by any name other than “eval”, it should evaluate the string as if it were top-level global code. The evaluated code may define new global variables or global functions, and it may set global variables, but it will not use or modify any variables local to the calling function, and will not, therefore, interfere with local optimizations.</p>
+<p>A “direct eval” is call to the <code>eval()</code> function with an expression that uses the exact, unqualified name “eval”(which is beginning to feel like a reserved word). Direct calls to <code>eval()</code> use the variable environment of the calling context. Any other call - an indirect call - uses the global object as its variable environment and cannot read, write, or define local variables or functions.(Both direct and indirect calls can define new variables and constants that are local to the evaluation and do not alter the calling or global environment.)</p>
+<p>The following code demostrates</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> geval = <span class="built_in">eval</span>;               <span class="comment">// Using another name does a global eval</span></span><br><span class="line"><span class="keyword">let</span> x = <span class="string">&quot;global&quot;</span>, y = <span class="string">&quot;global&quot;</span>;   <span class="comment">// Two global variables</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">f</span>(<span class="params"></span>) &#123;                    <span class="comment">// This function does a local eval</span></span><br><span class="line">    <span class="keyword">let</span> x = <span class="string">&quot;local&quot;</span>;              <span class="comment">// Define a local variable</span></span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">&quot;x += &#x27;changed&#x27;;&quot;</span>);      <span class="comment">// Direct eval sets local variable</span></span><br><span class="line">    <span class="keyword">return</span> x;                     <span class="comment">// Return changed local variable</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">g</span>(<span class="params"></span>) &#123;                    <span class="comment">// This function does a global eval</span></span><br><span class="line">    <span class="keyword">let</span> y = <span class="string">&quot;local&quot;</span>;              <span class="comment">// A local variable</span></span><br><span class="line">    <span class="title function_">geval</span>(<span class="string">&quot;y += &#x27;changed&#x27;;&quot;</span>);     <span class="comment">// Indirect eval sets global variable</span></span><br><span class="line">    <span class="keyword">return</span> y;                     <span class="comment">// Return unchanged local variable</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">f</span>(), x); <span class="comment">// Local variable changed: prints &quot;localchanged global&quot;:</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">g</span>(), y); <span class="comment">// Global variable changed: prints &quot;local globalchanged&quot;:</span></span><br></pre></td></tr></table></figure>
+<p>Notice that the ability to do a global eval is not just an accommodation to the needs of the optimizer, it is actually a tremendously useful feature that allows you to execute strings of code as if they were independent, top-level scripts. As noted as the beginning of this section, it is rare to truly need to evaluate a string of code. But if you do find it necessary, you are more likely to want to do a glocal eval than a local eval.</p>
+<h3 id="3-Strict-eval">3. Strict eval()</h3>
+<p><code>Strict mode</code>(ch 5.6.3) imposes further restrictions on the behavior of the <code>eval()</code> function and even on the use of the identifier “eval”. When <code>eval()</code> is called from strict-mode code, or when the string of code to be evaluated itself begins with a “use strict” directive, then <code>eval()</code> does a local eval with a private variable environment. This means that in strict mode, evaluated code can query and set local variables, but it cannot define new variables or functions in the local scope.</p>
+<p>Furthermore, strict mode makes <code>eval()</code> even more operator-like by effectively making “eval” into a reserved word. You are not allowed to overwrite the <code>eval()</code> function with a new value. And you are not allowed to declare a variable, function, function parameter, or catch block parameter with the name “eval”.</p>
+<h2 id="13-Miscellaneous-Operators">13. Miscellaneous Operators</h2>
+<h3 id="1-The-Conditional-Operator">1. The Conditional Operator(?:)</h3>
+<p>The conditional operator is the only ternary operator(three operands) in JavaScript and is sometimes actually called the <code>ternary operator</code>. This operator is sometimes written <code>?:</code>, although it does not appear quite that way in code. Because this operator has three operands, this first goes before the ?, the second goes between the ? and the :, and the third goes after the :.</p>
+<p>The operands of the conditional operator may be of any type. The first operand is evaluated and interpreted as a boolean. If the value of the first operand is truthy, then the second operand is  evaluated, and its value is returned. Otherwise, if the first operand is falsy, then the third operand  is evaluated and its value is returned. Only one of the second and third operands is evaluated; never both.</p>
+<h3 id="2-First-Defined">2. First-Defined(??)</h3>
+<p>The first-defined operator <code>??</code> evaluates to its first defined operand: if its left operand is not <code>null</code> and not <code>undefined</code>, it returns that value. Otherwise, it returns the value of the right operand. Like the <code>&amp;&amp;</code> and <code>||</code> operators, <code>??</code> is short-circuiting: it only evaluate its second operand if the first operand evaluates to <code>null</code> or <code>undefined</code>. If the expression <code>a</code> has no side effects, then the expression <code>a ?? b</code> is equivalent to <code>a !== null &amp;&amp; a !== undefined ? a : b</code>.</p>
+<p><code>??</code> is a useful alternative to <code>||</code> when you want to select the first <code>defined</code> operand rather than the first truthy operand. Although <code>||</code> is nominally a logical OR operator, it is also used idiomatically to select the first non-falsy operand with code like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If maxWidth is truthy, use that. Otherwise, look for a value in</span></span><br><span class="line"><span class="comment">// the preferences object. If that is not truthy, use a hardcoded constant.</span></span><br><span class="line"><span class="keyword">let</span> max = maxWidth || preferences.<span class="property">maxWidth</span> || <span class="number">500</span>;</span><br></pre></td></tr></table></figure>
+<p>The probleam with this idiomatic use is that zero, the empty string, and <code>false</code> are all falsy values that may be prefectly valid in some circumstances. In this code example, if <code>maxWidth</code> is zero, that value will be ignored. But if we change the <code>||</code> operator to <code>??</code>, we end up with an expression where zero is a valid value:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If maxWidth is defined, use that. Otherwise, look for a value in</span></span><br><span class="line"><span class="comment">// the preferences object. If that is not defined, use a hardcoded constant.</span></span><br><span class="line"><span class="keyword">let</span> max = maxWidth ?? preferences.<span class="property">maxWidth</span> ?? <span class="number">500</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> options = &#123; <span class="attr">timeout</span>: <span class="number">0</span>, <span class="attr">title</span>: <span class="string">&quot;&quot;</span>, <span class="attr">verbose</span>: <span class="literal">false</span>, <span class="attr">n</span>: <span class="literal">null</span> &#125;;</span><br><span class="line">options.<span class="property">timeout</span> ?? <span class="number">1000</span>     <span class="comment">// =&gt; 0: as defined in the object</span></span><br><span class="line">options.<span class="property">title</span> ?? <span class="string">&quot;Untitled&quot;</span> <span class="comment">// =&gt; &quot;&quot;: as defined in the object</span></span><br><span class="line">options.<span class="property">verbose</span> ?? <span class="literal">true</span>     <span class="comment">// =&gt; false: as defined in the object</span></span><br><span class="line">options.<span class="property">quiet</span> ?? <span class="literal">false</span>      <span class="comment">// =&gt; false: property is not defined</span></span><br><span class="line">options.<span class="property">n</span> ?? <span class="number">10</span>             <span class="comment">// =&gt; 10: property is null</span></span><br></pre></td></tr></table></figure>
+<p>The <code>??</code> operator is defined by ES2020, and as of early 2020, is newly supported by current or beta versions of all major browsers. This operator is formally called the “nullish(i.e., null or undefined) coalescing” operator, but I avoid that term because this operator selects one of its operands but does not “coalesce” them in any way that I can see.</p>
+<h3 id="3-The-typeof-Operator">3. The typeof Operator</h3>
+<p><code>typeof</code> is unary operator that is placed before its single operand, which can be of any type. Its value is a string that specifies the type of the operand. The following table specifies the value of the <code>typeof</code> operator for any JavaScript value.</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>typeof x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>undefined</td>
+<td>“undefined”</td>
+</tr>
+<tr>
+<td>null</td>
+<td>“object”</td>
+</tr>
+<tr>
+<td>true or false</td>
+<td>“boolean”</td>
+</tr>
+<tr>
+<td>any number or NaN</td>
+<td>“number”</td>
+</tr>
+<tr>
+<td>any BigInt</td>
+<td>“bigint”</td>
+</tr>
+<tr>
+<td>any string</td>
+<td>“string”</td>
+</tr>
+<tr>
+<td>any symbol</td>
+<td>“symbol”</td>
+</tr>
+<tr>
+<td>any function</td>
+<td>“function”</td>
+</tr>
+<tr>
+<td>any nonfunction object</td>
+<td>“object”</td>
+</tr>
+</tbody>
+</table>
+<p>You might use the typeof operator in an expression like this:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// If the value is a string, wrap it in quotes, otherwise, convert</span></span><br><span class="line">(<span class="keyword">typeof</span> value === <span class="string">&quot;string&quot;</span>) ? <span class="string">&quot;&#x27;&quot;</span> + value + <span class="string">&quot;&#x27;&quot;</span> : value.<span class="title function_">toString</span>()</span><br></pre></td></tr></table></figure>
+<p>Note that <code>typeof</code> returns “object” if the operand value is <code>null</code>. If you want to distinguish <code>null</code> from objects, you’ll have to explicitly test for this special-case value.</p>
+<p>Although JavaScript functions are a kind of object, the <code>typeof</code> operator considers functions to be sufficiently different that they have their own return value.</p>
+<p>Because <code>typeof</code> evaluates to “object” for all object and array values other than functions, it is useful only to distinguish objects from other, primitive types. In order to distinguish one class of object from another, you must use other techniques, such as the <code>instanceof</code> operator, the <code>class</code> attribute or the <code>constructor</code> property.</p>
+<h3 id="4-The-delete-Operator">4. The delete Operator</h3>
+<p><code>delete</code> is a unary operator that attempts to delete the object property or array element specified as its operand. Like the assignment, increment, and decrement operators, <code>delete</code> is typically used for its property deletion side effect and not for the value it returns. Some examples:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> o = &#123; <span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">2</span>&#125;; <span class="comment">// Start with an object</span></span><br><span class="line"><span class="keyword">delete</span> o.<span class="property">x</span>;            <span class="comment">// Delete one of its properties</span></span><br><span class="line"><span class="string">&quot;x&quot;</span> <span class="keyword">in</span> o               <span class="comment">// =&gt; false: the property does not exist anymore</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];       <span class="comment">// Start with an array</span></span><br><span class="line"><span class="keyword">delete</span> a[<span class="number">2</span>];           <span class="comment">// Delete the last element of the array</span></span><br><span class="line"><span class="number">2</span> <span class="keyword">in</span> a                 <span class="comment">// =&gt; false: array element 2 doesn&#x27;t exist anymore</span></span><br><span class="line">a.<span class="property">length</span>               <span class="comment">// =&gt; 3: note that array length doesn&#x27;t change, though</span></span><br></pre></td></tr></table></figure>
+<p>Note that a deleted property or array element is not merely set to the <code>undefined</code> value. When a property is deleted, the property ceases to exist. Attempting to read a nonexistent property returns <code>undefined</code>, but you can test for the actual existence of a property with the <code>in</code> operator. Deleting an array element leaves a “hole” in the array and does not change the array’s length. The resulting array is <code>sparse</code>.</p>
+<p><code>delete</code> expects its operand to be an lvalue. If it is not an lvalue, the operand takes no action and returns <code>true</code>. Otherwise, <code>delete</code> attempts to delete the specified lvalue. <code>delete</code> returns <code>true</code> if it successfully deletes the specified lvalue. Not all properties can be deleted, however: non-configurable properties are immune from deletion.</p>
+<p>In strict mode, <code>delete</code> raises a SyntaxError if its operand is an unqualified identifier such as a variable, function, or function parameter: it only works when the operand is a property access expression. Strict mode also specifies that <code>delete</code> raises a TypeError if asked to delete any non-configurable(i.e., nondeleteable) property. Outside of strict mode, no exception occurs in these cases, and <code>delete</code> simply returns <code>false</code> to indicate that the operand could not be deleted.</p>
+<p>Here are some example uses of the <code>delete</code> operator</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> o = &#123;<span class="attr">x</span>: <span class="number">1</span>, <span class="attr">y</span>: <span class="number">2</span>&#125;;</span><br><span class="line"><span class="keyword">delete</span> o.<span class="property">x</span>;   <span class="comment">// Delete one of the object properties; returns true.</span></span><br><span class="line"><span class="keyword">typeof</span> o.<span class="property">x</span>;   <span class="comment">// Property does not exist; returns &quot;undefined&quot;.</span></span><br><span class="line"><span class="keyword">delete</span> o.<span class="property">x</span>;   <span class="comment">// Delete a nonexistent property; returns true.</span></span><br><span class="line"><span class="keyword">delete</span> <span class="number">1</span>;     <span class="comment">// This makes no sense, but it just returns true.</span></span><br><span class="line"><span class="comment">// Can&#x27;t delete a variable; returns false, or SyntaxError in strict mode.</span></span><br><span class="line"><span class="keyword">delete</span> o;</span><br><span class="line"><span class="comment">// Undeletable property: returns false, or TypeError in strict mode.</span></span><br><span class="line"><span class="keyword">delete</span> <span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>;</span><br></pre></td></tr></table></figure>
+<h3 id="5-The-await-Operator">5. The await Operator</h3>
+<p><code>await</code> was introduced in ES2017 as a way to make asynchronous programming more natural in JavaScript. You will need to read ch13 to understand this operator. Briefly, however, <code>await</code> expects a Promise object(representing an asynchronous computation) as its sole operand, and it makes your program behave as if it were waiting for the asynchronous computation to complete(but it does this without actually blocking, and it does not prevent other asynchronous operations from proceeding at the same time). The value of the <code>await</code> operator is the fulfillment value of the Promise object. Importantly, <code>await</code> is only legal within functions that have been declared asynchronous with the <code>async</code> keyword. Again, see ch13 for more details.</p>
+<h3 id="6-The-void-Operator">6. The void Operator</h3>
+<p><code>void</code> is a unary operator that appears before its single operand, which may be of any type. This operator is unusual and infrequently used; it evaluates its operand, then discards the value and returns <code>undefined</code>, Since the operand value is discarded, using the <code>void</code> operator makes sense only if the operand has side effects.</p>
+<p>The <code>void</code> operator is so obscure that it is difficult to come up with a practical example of its use. One case would be when you want to define a function that returns nothing but also uses the arrow function shorcut syntax where the body of function is a single expression that is evaluated and returned. If you are evaluating the expression solely for its side effects and do not want to return its value, then the simplest thing is to use curly braces around the function body. But, as an alternative, you could also use the void operator in this case.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">increment</span> = (<span class="params"></span>) =&gt; <span class="keyword">void</span> counter++;</span><br><span class="line"><span class="title function_">increment</span>()   <span class="comment">// =&gt; undefined</span></span><br><span class="line">counter       <span class="comment">// =&gt; 1</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-The-comma-Operator">7. The comma Operator(,)</h3>
+<p>The comma operator is a binary operator whose operands may be of any type. It evaluates its left operand, evaluates its right operand, and then returns the value of the right operand. Thus, the following line:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i=<span class="number">0</span>, j=<span class="number">1</span>, k=<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>evaluates to 2 and is basically equivalent to:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0</span>; j = <span class="number">1</span>; k = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>The lefthand expression is always evaluated, but its value is discarded, which means that it only makes sense to use the comma operator when the lefthand expression has side effect. The only situation in which the comma operator is commonly used is with a <code>for</code> loop that has multiple loop variables</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// The first comma below is part of the syntax of the let statement</span></span><br><span class="line"><span class="comment">// The second comma is the comma operator: it lets us squeeze 2</span></span><br><span class="line"><span class="comment">// expressions (i++ and j--) into a statement (the for loop) that expects 1.</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>,j=<span class="number">10</span>; i &lt; j; i++,j--) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(i+j);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="14-Summary">14. Summary</h2>
+<ul>
+<li>Expressions are the phrases of a JavaScript program.</li>
+<li>Any expression can be <code>evaluated</code> to a JavaScript value.</li>
+<li>Expressions can also have side effects(such as variable assignment) in addition to producing a value.</li>
+<li>Simple expressions such as literals, variable reference, and property accesss can be combined with operators to produce larger exprssions</li>
+<li>JavaScript defines operators for arithmetic, comparisons, Boolean logic, assignment, and bit manipulation, along with some miscellaneous operators, including the ternary conditional operator</li>
+<li>The JavaScript + operator is used to both add numbers and concatenate strings.</li>
+<li>The logical operators <code>&amp;&amp;</code> and <code>||</code> have special “short-circuiting” behavior and sometimes only evaluate one of their arguments. Common JavaScript idioms require you to understand the special behavior of these operators.</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://zhouyi207.github.io">螃蟹</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://zhouyi207.github.io/2025/06/17/JavaScript/ch04/">https://zhouyi207.github.io/2025/06/17/JavaScript/ch04/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://zhouyi207.github.io" target="_blank">螃蟹</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JavaScript/">JavaScript</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/06/19/JavaScript/ch05/" title="05-Statements"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">05-Statements</div></div><div class="info-2"><div class="info-item-1">JavaScript programs are nothing more than a sequence of statements to execute. By default, the JavaScript interpreter executes these statements one after another in the order they are written. Another way to “make something happen” is to alter this default order of execution, and JavaScript has a number of statements or control structures that do just this. Conditionals Statements like if and switch that make the JavaScript interpreter execute or skip other statements depending on the value...</div></div></div></a><a class="pagination-related" href="/2025/06/12/JavaScript/ch02/" title="02-Lexical Structure"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">02-Lexical Structure</div></div><div class="info-2"><div class="info-item-1">The lexical structure of a programming language is the set of elementary rules that specifies how you write programs in that language. It is the lowest-level syntax of a language: it specifies what variable names look like, the delimiter characters for comments, and how one program statement is separated from the next, for example. This short chapter documents the lexical structure of JavaScript, It covers:  Case sensitivity, spaces, and line breaks Comments Literals Identifiers and reserved...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/06/12/JavaScript/ch00/" title="00-Preface"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-12</div><div class="info-item-2">00-Preface</div></div><div class="info-2"><div class="info-item-1">If you need to look up anything related to core or client-side JavaScript, I recommend you visit the MDN website. And for server-side Node APIs, I recommend you go directly to the source and consult the Node.js reference documentation. </div></div></div></a><a class="pagination-related" href="/2025/06/12/JavaScript/ch01/" title="01-Introduction"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-12</div><div class="info-item-2">01-Introduction</div></div><div class="info-2"><div class="info-item-1">Over the last decade, Node.js has enabled JavaScript programming outside of web browsers. So Node.js is a JavaScript runtime environment. JavaScript is a high-level, dynamic, interpreted programming language that is well-suited to object-oriented and functional programming styles. JavaScript’s variables are untyped. Its syntax is loosely based on Java, but the languages are otherwise unrelated. The name “JavaScript” is quite misleading. Except for a superficial syntactic resemblance,...</div></div></div></a><a class="pagination-related" href="/2025/06/12/JavaScript/ch03/" title="03-Types, Values, and Variables"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-12</div><div class="info-item-2">03-Types, Values, and Variables</div></div><div class="info-2"><div class="info-item-1">1. Overview and Definitions JavaScript types can be divided into two categories: primitive types and object types. JavaScript’s primitive types include numbers, strings of text(know as strings), and Boolean truth values(known as booleans). The special JavaScript values null and undefined are primitive values, but they are not numbers, strings, or booleans. Each value is typically considered to be the sole member of its own special type. ES6 adds a new special-purpose type, known as Symbol,...</div></div></div></a><a class="pagination-related" href="/2025/06/19/JavaScript/ch05/" title="05-Statements"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-19</div><div class="info-item-2">05-Statements</div></div><div class="info-2"><div class="info-item-1">JavaScript programs are nothing more than a sequence of statements to execute. By default, the JavaScript interpreter executes these statements one after another in the order they are written. Another way to “make something happen” is to alter this default order of execution, and JavaScript has a number of statements or control structures that do just this. Conditionals Statements like if and switch that make the JavaScript interpreter execute or skip other statements depending on the value...</div></div></div></a><a class="pagination-related no-desc" href="/2025/06/20/JavaScript/ch06/" title="05-Objects"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-20</div><div class="info-item-2">05-Objects</div></div></div></a><a class="pagination-related" href="/2025/06/12/JavaScript/ch02/" title="02-Lexical Structure"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-06-12</div><div class="info-item-2">02-Lexical Structure</div></div><div class="info-2"><div class="info-item-1">The lexical structure of a programming language is the set of elementary rules that specifies how you write programs in that language. It is the lowest-level syntax of a language: it specifies what variable names look like, the delimiter characters for comments, and how one program statement is separated from the next, for example. This short chapter documents the lexical structure of JavaScript, It covers:  Case sensitivity, spaces, and line breaks Comments Literals Identifiers and reserved...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">螃蟹</div><div class="author-info-description">冲冲冲</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zhouyi207"><i class="fab fa-github"></i><span>关注</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a><a class="social-icon" href="mailto:xxxxxx@gmail.com" target="_blank" title="zhihu"><i class="fa-brands fa-weixin" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎~</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Primary-Expression"><span class="toc-text">1. Primary Expression</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Object-and-Array-Initializers"><span class="toc-text">2. Object and Array Initializers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Function-Definition-Expressions"><span class="toc-text">3. Function Definition Expressions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Property-Access-Expressions"><span class="toc-text">4. Property Access Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Conditional-Property-Access"><span class="toc-text">1. Conditional Property Access</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Invocation-Expressions"><span class="toc-text">5. Invocation Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Conditional-Invocation"><span class="toc-text">1. Conditional Invocation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-Object-Creation-Expressions"><span class="toc-text">6. Object Creation Expressions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Operator-Overview"><span class="toc-text">7. Operator Overview</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Number-of-Operands"><span class="toc-text">1. Number of Operands</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Operand-and-Result-Type"><span class="toc-text">2. Operand and Result Type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Operator-Side-Effects"><span class="toc-text">3. Operator Side Effects</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-Operator-Precedence"><span class="toc-text">4. Operator Precedence</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Operator-Associativity"><span class="toc-text">5. Operator Associativity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-Order-of-Evaluation"><span class="toc-text">6. Order of Evaluation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Arithmetic-Expressions"><span class="toc-text">8. Arithmetic Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-The-Operator"><span class="toc-text">1. The + Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Unary-Arithmetic-Operators"><span class="toc-text">2. Unary Arithmetic Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Bitwise-Operators"><span class="toc-text">3. Bitwise Operators</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-Relational-Expressions"><span class="toc-text">9. Relational Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Equality-and-Inequality-Operators"><span class="toc-text">1. Equality and Inequality Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Comparison-Operators"><span class="toc-text">2. Comparison Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-The-in-Operator"><span class="toc-text">3. The in Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-The-instanceof-Operator"><span class="toc-text">4. The instanceof Operator</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Logical-Expressions"><span class="toc-text">10. Logical Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Logical-AND"><span class="toc-text">1. Logical AND(&amp;&amp;)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Logical-OR"><span class="toc-text">2. Logical OR(||)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Logical-NOT"><span class="toc-text">3. Logical NOT(!)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-Assignment-Expressions"><span class="toc-text">11. Assignment Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Assignment-with-Operation"><span class="toc-text">1. Assignment with Operation</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-Evaluation-Expressions"><span class="toc-text">12. Evaluation Expressions</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-eval"><span class="toc-text">1. eval()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-Global-eval"><span class="toc-text">2. Global eval()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Strict-eval"><span class="toc-text">3. Strict eval()</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-Miscellaneous-Operators"><span class="toc-text">13. Miscellaneous Operators</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-The-Conditional-Operator"><span class="toc-text">1. The Conditional Operator(?:)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-First-Defined"><span class="toc-text">2. First-Defined(??)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-The-typeof-Operator"><span class="toc-text">3. The typeof Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-The-delete-Operator"><span class="toc-text">4. The delete Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-The-await-Operator"><span class="toc-text">5. The await Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-The-void-Operator"><span class="toc-text">6. The void Operator</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-The-comma-Operator"><span class="toc-text">7. The comma Operator(,)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-Summary"><span class="toc-text">14. Summary</span></a></li></ol></div></div><div class="card-widget card-post-series"><div class="item-headline"><i class="fa-solid fa-layer-group"></i><span>系列文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/20/JavaScript/ch06/" title="05-Objects">05-Objects</a><time datetime="2025-06-19T16:00:00.000Z" title="发表于 2025-06-20 00:00:00">2025-06-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/19/JavaScript/ch05/" title="05-Statements">05-Statements</a><time datetime="2025-06-18T16:00:00.000Z" title="发表于 2025-06-19 00:00:00">2025-06-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/17/JavaScript/ch04/" title="04-Expressions and Operators">04-Expressions and Operators</a><time datetime="2025-06-16T16:00:00.000Z" title="发表于 2025-06-17 00:00:00">2025-06-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/12/JavaScript/ch00/" title="00-Preface">00-Preface</a><time datetime="2025-06-11T16:00:00.000Z" title="发表于 2025-06-12 00:00:00">2025-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/12/JavaScript/ch01/" title="01-Introduction">01-Introduction</a><time datetime="2025-06-11T16:00:00.000Z" title="发表于 2025-06-12 00:00:00">2025-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/12/JavaScript/ch03/" title="03-Types, Values, and Variables">03-Types, Values, and Variables</a><time datetime="2025-06-11T16:00:00.000Z" title="发表于 2025-06-12 00:00:00">2025-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/12/JavaScript/ch02/" title="02-Lexical Structure">02-Lexical Structure</a><time datetime="2025-06-11T16:00:00.000Z" title="发表于 2025-06-12 00:00:00">2025-06-12</time></div></div></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/20/JavaScript/ch06/" title="05-Objects">05-Objects</a><time datetime="2025-06-19T16:00:00.000Z" title="发表于 2025-06-20 00:00:00">2025-06-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/19/JavaScript/ch05/" title="05-Statements">05-Statements</a><time datetime="2025-06-18T16:00:00.000Z" title="发表于 2025-06-19 00:00:00">2025-06-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/17/JavaScript/ch04/" title="04-Expressions and Operators">04-Expressions and Operators</a><time datetime="2025-06-16T16:00:00.000Z" title="发表于 2025-06-17 00:00:00">2025-06-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/12/JavaScript/ch00/" title="00-Preface">00-Preface</a><time datetime="2025-06-11T16:00:00.000Z" title="发表于 2025-06-12 00:00:00">2025-06-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/06/12/JavaScript/ch01/" title="01-Introduction">01-Introduction</a><time datetime="2025-06-11T16:00:00.000Z" title="发表于 2025-06-12 00:00:00">2025-06-12</time></div></div></div></div></div></div></main><footer id="footer" style="background: linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347);"><div id="footer-wrap"><div class="copyright">&copy;2025.03.14 - 2025 By 螃蟹</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><div class="js-pjax"><script>(async () => {
+  const showKatex = () => {
+    document.querySelectorAll('#article-container .katex').forEach(el => el.classList.add('katex-show'))
+  }
+
+  if (!window.katex_js_css) {
+    window.katex_js_css = true
+    await btf.getCSS('https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css')
+    if (true) {
+      await btf.getScript('https://cdn.jsdelivr.net/npm/katex/dist/contrib/copy-tex.min.js')
+    }
+  }
+
+  showKatex()
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="false"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div></body></html>
